@@ -13,7 +13,9 @@ angular.module('techradar', [
   'ui.router',
   'ui.bootstrap',
   'toastr',
-  'firebase'
+  'firebase',
+  'formly',
+  'formlyBootstrap'
 ])
   .constant('moment', moment)
   .constant('Firebase', Firebase)

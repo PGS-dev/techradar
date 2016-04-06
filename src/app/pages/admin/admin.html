@@ -3,9 +3,45 @@
     <div class="col-sm-12">
       <h1>Admin</h1>
 
-      <formly-form model="vm.adminForm.model" fields="vm.adminForm.fields">
-        <button type="submit" class="btn btn-default" ng-click="vm.adminForm.onSubmit">Submit</button>
-      </formly-form>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Area</th>
+              <th>Status</th>
+              <th>Updated</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.items">
+              <td>{{::item.name}}</td>
+              <td>{{::item.area}}</td>
+              <td>{{::item.status}}</td>
+              <td>{{::item.updated}}</td>
+              <td>
+                <button class="btn btn-xs btn-danger" ng-click="vm.removeItem($index)">Remove</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <formly-form model="vm.adminForm.model" fields="vm.adminForm.fields">
+            <button type="submit" class="btn btn-primary" ng-click="vm.onSubmit()">Add</button>
+          </formly-form>
+        </div>
+      </div>
+
+
+      <!--<pre>{{vm.adminForm | json}}</pre>
+      <pre>{{vm.adminForm.model | json}}</pre>-->
     </div>
   </div>
 </section>
