@@ -1,5 +1,5 @@
 export class AdminPageController {
-  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, AuthService,$state) {
+  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, AuthService, $state, moment) {
     'ngInject';
 
     if (!AuthService.isAuthenticated()) {
@@ -11,6 +11,7 @@ export class AdminPageController {
     var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
 
     // download the data into a local object
+    this.moment = moment;
     this.items = $firebaseArray(itemsRef);
     this.initForm();
   }
@@ -23,9 +24,19 @@ export class AdminPageController {
   }
 
   addItem(newItemModel) {
-    newItemModel.updated = moment().valueOf();
+    newItemModel.updated = this.moment().valueOf();
     this.items.$add(newItemModel);
     this.initForm();
+  }
+
+  updateItem(updatedModel, idx) {
+    this.items[idx].name = updatedModel.name;
+    this.items[idx].area = updatedModel.area;
+    this.items[idx].domain = updatedModel.domain;
+    this.items[idx].status = updatedModel.status;
+    this.items[idx].updated = this.moment().valueOf();
+
+    this.items.$save(this.items[idx]);
   }
 
   removeItem(index) {
@@ -95,6 +106,30 @@ export class AdminPageController {
   }
 
   onSubmit() {
-    this.addItem(this.adminForm.model);
+    // Edit
+    if (this.adminForm.model.$id) {
+      this.updateItem(this.adminForm.model, this.editedIdx);
+    } else {
+      // Create new
+      this.addItem(this.adminForm.model);
+    }
+    this.adminFormVisible = false;
+  }
+
+  onCancel() {
+    this.initForm();
+    this.adminFormVisible = false;
+  }
+
+  addItemForm() {
+    this.initForm();
+    this.adminFormVisible = true;
+  }
+
+  editItemForm(index) {
+    this.initForm();
+    this.editedIdx = index;
+    this.adminForm.model = angular.copy(this.items[index]);
+    this.adminFormVisible = true;
   }
 }
