@@ -20,7 +20,7 @@
               <td>{{::item.name}}</td>
               <td>{{::item.area}}</td>
               <td>{{::item.status}}</td>
-              <td>{{::item.updated}}</td>
+              <td>{{::item.updated | date:'yyyy-MM-dd'}}</td>
               <td>
                 <button class="btn btn-xs btn-danger" ng-click="vm.removeItem($index)">Remove</button>
               </td>

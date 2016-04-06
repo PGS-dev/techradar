@@ -19,6 +19,6 @@ export class LoginPageController {
   }
 
   facebookLogin() {
-    return this.AuthService.loginWithFacebook();
+    return this.AuthService.loginWithFacebook()
   }
 }

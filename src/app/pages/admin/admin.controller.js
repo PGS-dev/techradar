@@ -1,12 +1,35 @@
 export class AdminPageController {
-  constructor() {
+  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, AuthService,$state) {
     'ngInject';
 
+    if (!AuthService.isAuthenticated()) {
+      $state.go('login');
+      return false;
+    }
+
+
+    var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
+
+    // download the data into a local object
+    this.items = $firebaseArray(itemsRef);
+    this.initForm();
+  }
+
+  initForm() {
     this.adminForm = {
       model: {},
       fields: this.getFieldsDefinition()
     }
+  }
 
+  addItem(newItemModel) {
+    newItemModel.updated = moment().valueOf();
+    this.items.$add(newItemModel);
+    this.initForm();
+  }
+
+  removeItem(index) {
+    this.items.$remove(index, 1);
   }
 
   getFieldsDefinition() {
@@ -51,6 +74,6 @@ export class AdminPageController {
   }
 
   onSubmit() {
-    alert('Submit')
+    this.addItem(this.adminForm.model);
   }
 }

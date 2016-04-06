@@ -20,8 +20,8 @@ angular.module('techradar', [
   .constant('moment', moment)
   .constant('Firebase', Firebase)
   .constant('FirebaseApp', 'technology-radar')
-  .constant('FirebaseUrl', 'https://technology-radar.firebaseio.com')
-  .constant('RadarID', 'pgs')
+  .constant('FirebaseUrl', 'https://technology-radar.firebaseio.com/')
+  .constant('RadarId', 'pgs')
 
   .config(config)
   .config(routerConfig)

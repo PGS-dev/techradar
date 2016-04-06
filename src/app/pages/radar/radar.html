@@ -1,7 +1,28 @@
 <section class="container">
   <div class="row">
     <div class="col-sm-12">
-      [RADAR]
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Area</th>
+              <th>Status</th>
+              <th>Updated</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.items">
+              <td>{{::item.name}}</td>
+              <td>{{::item.area}}</td>
+              <td>{{::item.status}}</td>
+              <td>{{::item.updated | date:'yyyy-MM-dd'}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </section>
