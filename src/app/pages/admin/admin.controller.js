@@ -6,11 +6,8 @@ export class AdminPageController {
       $state.go('login');
       return false;
     }
-
-
     var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
-
-    // download the data into a local object
+    
     this.moment = moment;
     this.items = $firebaseArray(itemsRef);
     this.initForm();
