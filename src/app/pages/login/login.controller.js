@@ -19,6 +19,11 @@ export class LoginPageController {
   }
 
   facebookLogin() {
+    var vm = this;
+    
     return this.AuthService.loginWithFacebook()
+      .then(function () {
+        vm.$state.go('radar');
+      })
   }
 }

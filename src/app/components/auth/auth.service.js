@@ -1,21 +1,24 @@
 export class AuthService {
-  constructor(Firebase, FirebaseApp, FirebaseUrl, $firebaseObject, $firebaseAuth) {
+  constructor(Firebase, FirebaseApp, FirebaseUrl, RadarId, $firebaseObject, $firebaseArray, $firebaseAuth, $q) {
     'ngInject';
 
-    var authRef = new Firebase(FirebaseUrl);
-    var service = this;
+    var service = this,
+      authRef = new Firebase(FirebaseUrl),
+      usersRef = new Firebase(FirebaseUrl + RadarId + "/users");
 
+    this.$q = $q;
     this.Firebase = Firebase;
     this.FirebaseApp = FirebaseApp;
     this.FirebaseUrl = FirebaseUrl;
     this.firebaseAuth = $firebaseAuth(authRef);
     this.$firebaseObject = $firebaseObject;
+    this.users = $firebaseObject(usersRef);
 
     // Restore user session if possible
     this.getCurrentUser();
 
     // Authorization changes
-    this.firebaseAuth.$onAuth(function() {
+    this.firebaseAuth.$onAuth(function () {
       service.getCurrentUser();
     })
   }
@@ -28,11 +31,23 @@ export class AuthService {
   }
 
   loginWithFacebook() {
-    var service = this;
+    var service = this,
+        defer = this.$q.defer();
+    
     this.firebaseAuth.$authWithOAuthPopup('facebook')
       .then(function (currentUser) {
+        // Save curent user user
+        service.users[currentUser.uid] = currentUser;
+        service.users.$save()
+
         service.currentUser = currentUser;
+        defer.resolve(service.currentUser);
       })
+      .catch(function () {
+        defer.reject();
+      })
+
+    return defer.promise;
   }
 
   loginAsGuest() {
