@@ -35,7 +35,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       url: '/login',
       views: {
         header: {
-          templateUrl: 'app/components/navbar/navbar-guest.html',
+          templateUrl: 'app/components/navbar/navbar.html',
           controller: 'NavbarController',
           controllerAs: 'navbar'
         },

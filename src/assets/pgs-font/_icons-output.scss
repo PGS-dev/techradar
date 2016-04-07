@@ -1,0 +1,254 @@
+//This template can be edited to improve icons (don't change _icons-output.css)
+
+@font-face {
+	font-family: "pgs-font";
+	src: url('assets/pgs-font/pgs-font.eot');
+	src: url('assets/pgs-font/pgs-font.eot?#iefix') format('eot'),
+		url('assets/pgs-font/pgs-font.woff') format('woff'),
+		url('assets/pgs-font/pgs-font.ttf') format('truetype'),
+		url('assets/pgs-font/pgs-font.svg#pgs-font') format('svg');
+}
+
+@mixin icon-styles {
+	font-family: "pgs-font";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	// speak: none; // only necessary if not using the private unicode range (firstGlyph option)
+	text-decoration: none;
+	text-transform: none;
+  	display: inline-block;
+
+  	vertical-align: middle;
+
+}
+
+%icon {
+	@include icon-styles;
+
+}
+
+.icon {
+   display: inline-block;
+   line-height: 1.42857;
+}
+
+@function icon-char($filename) {
+	$char: "";
+
+	@if $filename == add {
+		$char: "\E001";
+	}
+	@if $filename == alert {
+		$char: "\E002";
+	}
+	@if $filename == bookmark {
+		$char: "\E003";
+	}
+	@if $filename == bug {
+		$char: "\E004";
+	}
+	@if $filename == calendar {
+		$char: "\E005";
+	}
+	@if $filename == cash {
+		$char: "\E006";
+	}
+	@if $filename == check {
+		$char: "\E007";
+	}
+	@if $filename == checkbox {
+		$char: "\E008";
+	}
+	@if $filename == chevron-left {
+		$char: "\E009";
+	}
+	@if $filename == chevron-right {
+		$char: "\E00A";
+	}
+	@if $filename == close {
+		$char: "\E00B";
+	}
+	@if $filename == code {
+		$char: "\E00C";
+	}
+	@if $filename == copy {
+		$char: "\E00D";
+	}
+	@if $filename == down-open {
+		$char: "\E00E";
+	}
+	@if $filename == dropdown {
+		$char: "\E00F";
+	}
+	@if $filename == dropup {
+		$char: "\E010";
+	}
+	@if $filename == edit {
+		$char: "\E011";
+	}
+	@if $filename == flag {
+		$char: "\E012";
+	}
+	@if $filename == info {
+		$char: "\E013";
+	}
+	@if $filename == loader {
+		$char: "\E014";
+	}
+	@if $filename == lock {
+		$char: "\E015";
+	}
+	@if $filename == mail {
+		$char: "\E016";
+	}
+	@if $filename == map_marker {
+		$char: "\E017";
+	}
+	@if $filename == one_to_one {
+		$char: "\E018";
+	}
+	@if $filename == phone {
+		$char: "\E019";
+	}
+	@if $filename == profile {
+		$char: "\E01A";
+	}
+	@if $filename == remove {
+		$char: "\E01B";
+	}
+	@if $filename == reports {
+		$char: "\E01C";
+	}
+	@if $filename == search {
+		$char: "\E01D";
+	}
+	@if $filename == settings {
+		$char: "\E01E";
+	}
+	@if $filename == star {
+		$char: "\E01F";
+	}
+	@if $filename == structure {
+		$char: "\E020";
+	}
+	@if $filename == time {
+		$char: "\E021";
+	}
+
+	@return $char;
+}
+
+@mixin icon($filename, $insert: before, $extend: true) {
+	&:#{$insert} {
+		@if $extend {
+			@extend %icon;
+		} @else {
+			@include icon-styles;
+		}
+		content: icon-char($filename);
+	}
+}
+
+.icon-add {
+	@include icon(add);
+}
+.icon-alert {
+	@include icon(alert);
+}
+.icon-bookmark {
+	@include icon(bookmark);
+}
+.icon-bug {
+	@include icon(bug);
+}
+.icon-calendar {
+	@include icon(calendar);
+}
+.icon-cash {
+	@include icon(cash);
+}
+.icon-check {
+	@include icon(check);
+}
+.icon-checkbox {
+	@include icon(checkbox);
+}
+.icon-chevron-left {
+	@include icon(chevron-left);
+}
+.icon-chevron-right {
+	@include icon(chevron-right);
+}
+.icon-close {
+	@include icon(close);
+}
+.icon-code {
+	@include icon(code);
+}
+.icon-copy {
+	@include icon(copy);
+}
+.icon-down-open {
+	@include icon(down-open);
+}
+.icon-dropdown {
+	@include icon(dropdown);
+}
+.icon-dropup {
+	@include icon(dropup);
+}
+.icon-edit {
+	@include icon(edit);
+}
+.icon-flag {
+	@include icon(flag);
+}
+.icon-info {
+	@include icon(info);
+}
+.icon-loader {
+	@include icon(loader);
+}
+.icon-lock {
+	@include icon(lock);
+}
+.icon-mail {
+	@include icon(mail);
+}
+.icon-map_marker {
+	@include icon(map_marker);
+}
+.icon-one_to_one {
+	@include icon(one_to_one);
+}
+.icon-phone {
+	@include icon(phone);
+}
+.icon-profile {
+	@include icon(profile);
+}
+.icon-remove {
+	@include icon(remove);
+}
+.icon-reports {
+	@include icon(reports);
+}
+.icon-search {
+	@include icon(search);
+}
+.icon-settings {
+	@include icon(settings);
+}
+.icon-star {
+	@include icon(star);
+}
+.icon-structure {
+	@include icon(structure);
+}
+.icon-time {
+	@include icon(time);
+}
+

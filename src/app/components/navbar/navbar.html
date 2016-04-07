@@ -1,34 +1,37 @@
-<nav class="navbar navbar-static-top navbar-inverse">
-  <div class="container-fluid">
+<nav class="navbar navbar-default Header">
+  <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" ui-sref="radar">
-        <span class="glyphicon glyphicon-home"></span> Technology Radar
-      </a>
+      <button aria-expanded="false" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+      </button>
+      <h1 class="navbar-brand">
+        <a ui-sref="radar"><img width="80px" height="44px" alt="" src="assets/images/PGS_logo.svg" /></a>
+        <span class="navbar-separator"></span>
+        <a class="Header-homeLink" ui-sref="radar">Technology Radar</a>
+      </h1>
+    </div>
+    <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-if="navbar.AuthService.isAuthenticated()">
+          <a ui-sref="admin" ui-sref-active="is-active">Admin</a>
+        </li>
+        <li class="hidden-xs"><span class="navbar-separator"></span></li>
+
+        <li ng-if="navbar.AuthService.isAuthenticated()">
+          <a ui-sref="login">
+            <img ng-show="navbar.AuthService.currentUser.facebook.profileImageURL" ng-src="{{navbar.AuthService.currentUser.facebook.profileImageURL}}" class="img-circle Navbar-avatar">
+            &nbsp;{{navbar.AuthService.currentUser.facebook.displayName}}
+          </a>
+        </li>
+        <li ng-if="!navbar.AuthService.isAuthenticated()">
+          <a ui-sref="login">
+            Login
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <nav class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-      <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a ui-sref="radar">Radar</a></li>
-        <li><a ui-sref="admin">Admin</a></li>
-      </ul>
-
-      <ul class="Navbar-user nav navbar-nav navbar-right" >
-        <li ng-if="navbar.AuthService.currentUser.provider == 'facebook'">
-          <a ui-sref="login" class="Navbar-userLink">
-            <img class="Navbar-avatar" ng-src="{{navbar.AuthService.currentUser.facebook.profileImageURL}}" alt="">
-            Hello {{navbar.AuthService.currentUser.facebook.displayName}}!
-          </a>
-        </li>
-
-        <li ng-if="login.AuthService.currentUser.provider == 'anonymous'">
-          <a ui-sref="login" class="Navbar-userLink">
-            Hello guest!
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-
-
+    <flash-message duration="5000" show-close="true" on-dismiss="myCallback(flash);"></flash-message>
   </div>
 </nav>
+
