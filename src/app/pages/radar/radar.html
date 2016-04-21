@@ -2,28 +2,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div class="panel-body">
-          <table class="table">
-            <thead>
-            <tr>
-              <th>Domain</th>
-              <th>Name</th>
-              <th>Area</th>
-              <th>Status</th>
-              <th>Updated</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="item in vm.items" title="{{item.description}}">
-              <td>{{item.domain}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.area}}</td>
-              <td>{{item.status}}</td>
-              <td>{{item.updated | date:'yyyy-MM-dd'}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+          <div id="grid1" ui-grid="vm.gridOptions" class="grid" ng-if="vm.gridOptions"></div>
       </div>
     </div>
   </div>

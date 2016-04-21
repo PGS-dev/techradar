@@ -12,12 +12,14 @@ import { AuthService } from '../app/components/auth/auth.service';
 angular.module('techradar', [
   'ui.router',
   'ui.bootstrap',
+  'ui.grid',
   'toastr',
   'firebase',
   'formly',
   'formlyBootstrap'
 ])
   .constant('moment', moment)
+  .constant('_', _)
   .constant('Firebase', Firebase)
   .constant('FirebaseApp', 'technology-radar')
   .constant('FirebaseUrl', 'https://technology-radar.firebaseio.com/')
