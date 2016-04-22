@@ -1,4 +1,4 @@
-/* global moment:false, Firebase:false */
+/* global moment:false, _:false, Firebase:false */
 
 import { config } from './index.config';
 import { routerConfig } from './index.route';
