@@ -1,0 +1,76 @@
+.Radar {
+  width: auto;
+  height: 1000px;
+  position: relative;
+  overflow: hidden;
+
+  $orange: #ff7626;
+  $axisColor: #ddd;
+
+  &-axisX {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $axisColor;
+  }
+
+  &-axisY {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: $axisColor;
+  }
+
+  &-circles {
+
+  }
+
+  &-items {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+
+
+
+    &-icon {
+      text-align: center;
+      cursor: pointer;
+      background: $orange;
+      border-radius: 50%;
+      border: solid 1px $orange;
+
+      &:hover {
+        background: white;
+
+        & + DIV {
+          opacity: 1;
+        }
+      }
+    }
+
+    &-details {
+      display: inline-block;
+      opacity: 0;
+      color: $orange;
+      padding: 3px;
+      position: absolute;
+      top: -18px;
+      left: 18px;
+      transition: opacity 0.5s;
+    }
+  }
+}

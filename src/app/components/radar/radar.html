@@ -1,0 +1,18 @@
+<div class="Radar">
+  <div class="Radar-axisX"></div>
+  <div class="Radar-axisY"></div>
+
+  <div class="Radar-circles">
+    <div class="Radar-circles-hold"></div>
+    <div class="Radar-circles-trial"></div>
+    <div class="Radar-circles-assess"></div>
+    <div class="Radar-circles-adopt"></div>
+  </div>
+
+  <div class="Radar-items">
+    <div class="Radar-item" ng-repeat="item in items" ng-style="{top: item.position.y + '%', left: item.position.x + '%'}">
+      <div class="Radar-item-icon">{{$index}}</div>
+      <div class="Radar-item-details" >{{item.name}}</div>
+    </div>
+  </div>
+</div>
