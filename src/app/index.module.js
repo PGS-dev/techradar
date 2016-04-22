@@ -8,6 +8,7 @@ import { AdminPageController } from './pages/admin/admin.controller';
 import { RadarPageController } from './pages/radar/radar.controller';
 import { NavbarController } from './components/navbar/navbar.controller';
 import { AuthService } from '../app/components/auth/auth.service';
+import { RadarDirective } from '../app/components/radar/radar.directive';
 
 angular.module('techradar', [
   'ui.router',
@@ -34,4 +35,5 @@ angular.module('techradar', [
   .controller('LoginPageController', LoginPageController)
   .controller('AdminPageController', AdminPageController)
   .controller('RadarPageController', RadarPageController)
+  .directive('radar', RadarDirective)
 
