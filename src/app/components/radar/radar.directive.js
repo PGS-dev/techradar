@@ -59,6 +59,9 @@ export function RadarDirective() {
           item.position.x = 0;
           break;
       }
+
+      item.position.x = item.position.x + _.random(-10, 10);
+      item.position.y = item.position.y + _.random(-10, 10);
     })
 
   }
