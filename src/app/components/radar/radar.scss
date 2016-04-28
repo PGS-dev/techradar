@@ -101,6 +101,7 @@ $axisColor: #ddd;
     left: 0;
     width: 20px;
     height: 20px;
+    margin: -10px 0 0 -10px;
 
     &-icon {
       text-align: center;
@@ -142,24 +143,28 @@ $axisColor: #ddd;
     width: 150px;
     padding: 5px;
 
+    /* Tools */
     &:nth-child(1) {
       top: 0;
-      left: 0;
-    }
-
-    &:nth-child(2) {
-      top: 50%;
-      left: 0;
-    }
-
-    &:nth-child(3) {
-      top: 50%;
       right: 0;
       text-align: right;
     }
 
-    &:nth-child(4) {
+    /* Techniques */
+    &:nth-child(2) {
       top: 0;
+      left: 0;
+    }
+
+    /* Platforms */
+    &:nth-child(3) {
+      top: 50%;
+      left: 0;
+    }
+
+    /* Languages & Frameworks */
+    &:nth-child(4) {
+      top: 50%;
       right: 0;
       text-align: right;
     }
