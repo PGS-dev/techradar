@@ -1,11 +1,33 @@
-.Radar {
-  width: auto;
-  height: 1000px;
-  position: relative;
-  overflow: hidden;
+$orange: #ff7626;
+$axisColor: #ddd;
 
-  $orange: #ff7626;
-  $axisColor: #ddd;
+.Radar {
+  position: relative;
+
+  &-canvas {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    margin: 40px auto;
+
+    @media (min-width: 800px) {
+      height: 600px;
+      width: 600px;
+    }
+
+    @media (min-width: 900px) {
+      height: 700px;
+      width: 700px;
+    }
+
+    @media (min-width: 1100px) {
+      height: 800px;
+      width: 800px;
+    }
+  }
+
+
 
   &-axisX {
     position: absolute;
@@ -25,8 +47,44 @@
     background: $axisColor;
   }
 
-  &-circles {
+  &-circle {
+    position: absolute;
+    background: transparent;
+    border: solid 1px #ccc;
+    border-radius: 50%;
+    text-align: center;
 
+    &--hold {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    &--assess {
+      top: 12.5%;
+      left: 12.5%;
+      bottom: 12.5%;
+      right: 12.5%;
+    }
+
+    &--trial {
+      top: 25%;
+      left: 25%;
+      bottom: 25%;
+      right: 25%;
+    }
+
+    &--adopt {
+      top: 37.5%;
+      left: 37.5%;
+      bottom: 37.5%;
+      right: 37.5%;
+    }
+  }
+
+  &-circleLabel {
+    font-size: 12px;
   }
 
   &-items {
@@ -43,8 +101,6 @@
     left: 0;
     width: 20px;
     height: 20px;
-
-
 
     &-icon {
       text-align: center;
@@ -72,5 +128,70 @@
       left: 18px;
       transition: opacity 0.5s;
     }
+  }
+}
+
+.RadarLabels {
+  @media (max-width: 800px) {
+    display: none;
+  }
+
+  &-area {
+    position: absolute;
+    font-size: 10px;
+    width: 150px;
+    padding: 5px;
+
+    &:nth-child(1) {
+      top: 0;
+      left: 0;
+    }
+
+    &:nth-child(2) {
+      top: 50%;
+      left: 0;
+    }
+
+    &:nth-child(3) {
+      top: 50%;
+      right: 0;
+      text-align: right;
+    }
+
+    &:nth-child(4) {
+      top: 0;
+      right: 0;
+      text-align: right;
+    }
+  }
+
+  &-areaHeader {
+    font-size: 14px;
+    margin: 0;
+    color: $orange;
+  }
+
+  &-statuses {
+
+  }
+
+  &-status {
+
+  }
+
+  &-statusHeader {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+  }
+
+  &-items {
+    padding: 0;
+    list-style: none;
+  }
+
+  &-item {
+    margin: 0;
+    padding: 0;
   }
 }
