@@ -27,8 +27,6 @@ $axisColor: #ddd;
     }
   }
 
-
-
   &-axisX {
     position: absolute;
     top: 50%;
@@ -99,9 +97,11 @@ $axisColor: #ddd;
     position: absolute;
     top: 0;
     left: 0;
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 15px;
     margin: -10px 0 0 -10px;
+    font-size: 10px;
+    line-height: 15px;
 
     &-icon {
       text-align: center;
