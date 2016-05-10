@@ -60,9 +60,6 @@ export class RadarPageController {
                 placeholder: 'less than'
               }
             ]
-          },
-          {
-            field: 'position'
           }
         ]
       }

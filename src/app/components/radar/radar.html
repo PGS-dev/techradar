@@ -20,8 +20,7 @@
 
     <div class="Radar-items">
       <div class="Radar-item" ng-repeat="item in items" ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
-        <div class="Radar-item-icon">{{$index}}</div>
-        <div class="Radar-item-details" >{{item.name}}</div>
+        <div class="Radar-item-icon" title="{{item.name}}">{{$index}}</div>
       </div>
     </div>
   </div>
