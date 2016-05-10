@@ -7,6 +7,9 @@ export class RadarPageController {
 
     // download the data into a local object
     this.items = $firebaseArray(itemsRef);
+    
+    // Toggle table
+    this.isTableVisible = false;
 
     this.items.$loaded().then(function (data) {
       vm.gridOptions = {

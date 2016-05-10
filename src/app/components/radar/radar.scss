@@ -110,10 +110,12 @@ $axisColor: #ddd;
       background: $orange;
       border-radius: 50%;
       border: solid 1px $orange;
+      color: white;
 
 
       &:hover {
         background: white;
+        color: $orange;
 
         & + DIV {
           opacity: 1;
