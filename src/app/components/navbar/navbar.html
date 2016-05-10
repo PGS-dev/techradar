@@ -13,6 +13,7 @@
       </ul>
 
       <ul class="Navbar-user nav navbar-nav navbar-right" >
+        <li><a href="" full-screen>FULL</a></li>
         <li ng-if="navbar.AuthService.currentUser.provider == 'facebook'">
           <a ui-sref="login" class="Navbar-userLink">
             <img class="Navbar-avatar" ng-src="{{navbar.AuthService.currentUser.facebook.profileImageURL}}" alt="">
