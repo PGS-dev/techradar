@@ -94,14 +94,15 @@ $axisColor: #ddd;
   }
 
   &-item {
+    $radarItemWidth: 1.5em;
     position: absolute;
     top: 0;
     left: 0;
-    width: 17px;
-    height: 15px;
-    margin: -10px 0 0 -10px;
-    font-size: 10px;
-    line-height: 15px;
+    width: $radarItemWidth;
+    margin-top: -($radarItemWidth/2);
+    margin-left: -($radarItemWidth/2);
+    font-size: $radarItemWidth*0.5;
+    line-height: 150%;
 
     &-icon {
       text-align: center;
@@ -109,6 +110,7 @@ $axisColor: #ddd;
       background: $orange;
       border-radius: 50%;
       border: solid 1px $orange;
+
 
       &:hover {
         background: white;

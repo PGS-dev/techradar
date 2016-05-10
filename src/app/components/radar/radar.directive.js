@@ -25,53 +25,54 @@ export function RadarDirective() {
 
       switch (item.status) {
         case 'Adopt':
-          item.position.r = 1;
+          item.position.radius = 1;
           break;
         case 'Trial':
-          item.position.r = 2;
+          item.position.radius = 2;
           break;
         case 'Assess':
-          item.position.r = 3;
+          item.position.radius = 3;
           break;
         case 'Hold':
-          item.position.r = 4;
+          item.position.radius = 4;
           break;
         default:
           break;
       }
 
       // Center radio
-      item.position.r = (item.position.r * 12.5) - 7 ;
+      item.position.radius *= 12.5;
+      item.position.radius -= 12.5/2;
 
       // Randomize radio
-      item.position.r = item.position.r + _.random(-5, 5);
+      item.position.radius = item.position.radius + _.random(-5, 5);
 
       switch (item.area) {
         case 'Tools':
-          item.position.q = 0;
+          item.position.angle = 0;
           break;
         case 'Techniques':
-          item.position.q = 90;
+          item.position.angle = 90;
           break;
         case 'Platforms':
-          item.position.q = 180;
+          item.position.angle = 180;
           break;
         case 'Languages & Frameworks':
-          item.position.q = 270;
+          item.position.angle = 270;
           break;
         default:
           break;
       }
 
       // Center angle
-      item.position.q += 45;
+      item.position.angle += 45;
 
       // Randomize angle
-      item.position.q = item.position.q + _.random(-35, 35);
+      item.position.angle = item.position.angle + _.random(-35, 35)
 
       // Convert polar to cartesian
-      item.position.x =  Math.floor(item.position.r * Math.cos(item.position.q));
-      item.position.y = Math.floor(item.position.r * Math.sin(item.position.q));
+      item.position.x =  item.position.radius * Math.cos(Math.PI / 180 * item.position.angle);
+      item.position.y = item.position.radius * Math.sin(Math.PI / 180 * item.position.angle);
     })
   }
 }
