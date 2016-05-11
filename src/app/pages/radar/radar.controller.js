@@ -1,13 +1,15 @@
 export class RadarPageController {
-  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, uiGridConstants, _) {
+  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, uiGridConstants, _, $state) {
     'ngInject';
 
     var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
     var vm = this;
 
+    this.$state = $state;
+
     // download the data into a local object
     this.items = $firebaseArray(itemsRef);
-    
+
     // Toggle table
     this.isTableVisible = false;
 
@@ -69,5 +71,11 @@ export class RadarPageController {
 
     })
 
+  }
+
+  onItemClick(item) {
+    debugger;
+
+    this.$state.go('technology', {techName: item.name, techId: item.$id});
   }
 }

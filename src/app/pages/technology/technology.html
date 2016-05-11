@@ -1,0 +1,18 @@
+<section class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>{{vm.item.name}}</h1>
+      <dl>
+        <dt>Area</dt>
+        <dd>{{vm.item.area}}</dd>
+        <dt>Status</dt>
+        <dd>{{vm.item.status}}</dd>
+      </dl>
+      <p>{{vm.item.description}}</p>
+
+      <ul>
+        <li ng-repeat="history in vm.item.history">{{history.timeString}} -> {{history.status}}</li>
+      </ul>
+    </div>
+  </div>
+</section>

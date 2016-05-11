@@ -5,7 +5,8 @@ export function RadarDirective(_) {
     restrict: 'E',
     templateUrl: 'app/components/radar/radar.html',
     scope: {
-      items: '='
+      items: '=',
+      stateOnClick: '='
     },
     link: linkFunction
   };
@@ -13,21 +14,25 @@ export function RadarDirective(_) {
   return directive;
 
   function linkFunction(scope) {
-    scope.onItemClick = onItemClick;
-    scope.viewItems = [];
-    scope.loader = true;
+    var vm = {}
+    scope.vm = vm;
+
+    vm.viewItems = [];
+    vm.loader = true;
 
     scope.items.$loaded().then(function (items) {
-      scope.loader = false;
-      scope.viewItems = _.clone(items, true);
-      onItemsLoaded(scope.viewItems, scope);
+      vm.loader = false;
+      vm.viewItems = _.clone(items, true);
+      onItemsLoaded(vm.viewItems, scope);
     })
   }
 
   function onItemsLoaded(items, scope) {
     scope.counter = items.length;
+    var idx = 1;
     angular.forEach(items, function (item) {
       item.position = {};
+      item.idx = idx++;
 
       switch (item.status) {
         case 'Adopt':
@@ -80,9 +85,5 @@ export function RadarDirective(_) {
       item.position.x =  item.position.radius * Math.cos(Math.PI / 180 * item.position.angle);
       item.position.y = item.position.radius * Math.sin(Math.PI / 180 * item.position.angle);
     })
-  }
-
-  function onItemClick(item) {
-    console.info(item);
   }
 }

@@ -1,0 +1,36 @@
+.u-tooltip {
+  position: relative;
+  $background: #888;
+
+  &:hover {
+    color: #c00;
+    text-decoration: none;
+
+    &:after {
+      background: $background;
+      border-radius: .5em;
+      bottom: 1.35em;
+      color: #fff;
+      content: attr(data-title);
+      display: block;
+      left: 1em;
+      padding: .3em 1em;
+      position: absolute;
+      //text-shadow: 0 1px 0 #000;
+      white-space: nowrap;
+      z-index: 98;
+    }
+
+    &:before {
+      border: solid;
+      border-color: $background transparent;
+      border-width: .4em .4em 0 .4em;
+      bottom: 1em;
+      content: "";
+      display: block;
+      left: 2em;
+      position: absolute;
+      z-index: 99;
+    }
+  }
+}

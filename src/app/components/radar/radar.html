@@ -20,10 +20,9 @@
 
     <div class="Radar-items">
       <div class="Radar-item"
-           ng-repeat="item in items"
-           ng-click="onItemClick(item)"
+           ng-repeat="item in vm.viewItems"
            ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
-        <div class="Radar-item-icon" title="{{item.name}}">{{$index}}</div>
+        <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}" ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.idx})">{{::item.idx}}</a>
       </div>
     </div>
   </div>
@@ -36,9 +35,9 @@
           <h4 class="RadarLabels-statusHeader">{{::status}}</h4>
           <ul class="RadarLabels-items">
             <li class="RadarLabels-item"
-                ng-click="onItemClick(item)"
-                ng-repeat="item in items | filter: { area: area, status: status }">
-              <span class="RadarLabels-icon">{{item.id}}</span><span class="RadarLabels-label">{{::item.name}}</span>
+                ng-click="vm.callback(item)"
+                ng-repeat="item in vm.viewItems | filter: { area: area, status: status }">
+              <span class="RadarLabels-icon">{{::item.idx}}</span><a class="RadarLabels-label" ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.name}}</a>
             </li>
           </ul>
         </div>
@@ -46,5 +45,5 @@
     </div>
   </div>
 
-  <div class="Radar-loader" ng-if="loader"><div class="loader"></div></div>
+  <div class="Radar-loader" ng-if="vm.loader"><div class="u-loader"></div></div>
 </div>

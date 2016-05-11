@@ -1,4 +1,6 @@
-export function FullScreenDirective($document) {
+/* global document */
+
+export function FullScreenDirective() {
   'ngInject';
 
   let directive = {
@@ -13,7 +15,8 @@ export function FullScreenDirective($document) {
   }
 
   function onClick() {
-    if ($document.isFullScreen || $document.mozIsFullScreen || $document.webkitIsFullScreen) {
+    var doc = document;
+    if (doc.isFullScreen || doc.mozIsFullScreen || doc.webkitIsFullScreen) {
       disableFullscreen();
     } else {
       enableFullScreen();
@@ -21,7 +24,9 @@ export function FullScreenDirective($document) {
   }
 
   function enableFullScreen() {
-    var element = $document.documentElement;
+    var doc = document,
+        element = doc.documentElement;
+
     if(element.requestFullscreen) {
       element.requestFullscreen();
     } else if(element.mozRequestFullScreen) {
@@ -34,12 +39,13 @@ export function FullScreenDirective($document) {
   }
 
   function disableFullscreen() {
-    if($document.exitFullscreen) {
-      $document.exitFullscreen();
-    } else if($document.mozCancelFullScreen) {
-      $document.mozCancelFullScreen();
-    } else if($document.webkitExitFullscreen) {
-      $document.webkitExitFullscreen();
+    var doc = document;
+    if(doc.exitFullscreen) {
+      doc.exitFullscreen();
+    } else if(doc.mozCancelFullScreen) {
+      doc.mozCancelFullScreen();
+    } else if(doc.webkitExitFullscreen) {
+      doc.webkitExitFullscreen();
     }
   }
 }

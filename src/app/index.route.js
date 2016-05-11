@@ -16,6 +16,21 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('technology', {
+      url: '/technology/:techName/:techId',
+      views: {
+        header: {
+          templateUrl: 'app/components/navbar/navbar.html',
+          controller: 'NavbarController',
+          controllerAs: 'navbar'
+        },
+        main: {
+          templateUrl: 'app/pages/technology/technology.html',
+          controller: 'TechnologyPageController',
+          controllerAs: 'vm'
+        }
+      }
+    })
     .state('admin', {
       url: '/admin',
       views: {
