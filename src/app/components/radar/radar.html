@@ -1,4 +1,15 @@
 <div class="Radar">
+  <div class="Radar-search">
+    <div ng-class="{'input-group':vm.search}">
+      <input type="text" class="form-control" placeholder="Filter" ng-model="vm.search" />
+        <span class="input-group-btn" ng-show="vm.search">
+          <button class="btn btn-info" type="button" ng-click="vm.search = ''">
+            X
+          </button>
+        </span>
+    </div>
+  </div>
+
   <div class="Radar-canvas">
     <div class="Radar-axisX"></div>
     <div class="Radar-axisY"></div>
@@ -20,9 +31,10 @@
 
     <div class="Radar-items">
       <div class="Radar-item"
-           ng-repeat="item in vm.viewItems"
+           ng-repeat="item in vm.viewItems | filter: {name: vm.search}"
            ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
-        <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}" ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.idx}}</a>
+        <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}"
+           ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.idx}}</a>
       </div>
     </div>
   </div>
@@ -36,8 +48,9 @@
           <ul class="RadarLabels-items">
             <li class="RadarLabels-item"
                 ng-click="vm.callback(item)"
-                ng-repeat="item in vm.viewItems | filter: { area: area, status: status }">
-              <span class="RadarLabels-icon">{{::item.idx}}</span><a class="RadarLabels-label" ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.name}}</a>
+                ng-repeat="item in vm.viewItems | filter: { area: area, status: status, name: vm.search }">
+              <span class="RadarLabels-icon">{{::item.idx}}</span><a class="RadarLabels-label"
+                                                                     ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.name}}</a>
             </li>
           </ul>
         </div>
@@ -45,5 +58,7 @@
     </div>
   </div>
 
-  <div class="Radar-loader" ng-if="vm.loader"><div class="u-loader"></div></div>
+  <div class="Radar-loader" ng-if="vm.loader">
+    <div class="u-loader"></div>
+  </div>
 </div>

@@ -4,6 +4,13 @@ $axisColor: #ddd;
 .Radar {
   position: relative;
 
+  &-search {
+    position: absolute;
+    top: -50px;
+    width: 200px;
+    right: 0;
+  }
+
   &-canvas {
     width: 400px;
     height: 400px;
