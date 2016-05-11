@@ -47,7 +47,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('grid', {
-      url: '/grid',
+      url: '/grid/:radarId',
       views: {
         header: {
           templateUrl: 'app/components/navbar/navbar.html',

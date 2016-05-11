@@ -8,9 +8,9 @@
 
     <nav class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a ui-sref="radar">Radar</a></li>
-        <li ui-sref-active="active"><a ui-sref="grid">Grid</a></li>
-        <li ui-sref-active="active" ng-if="navbar.AuthService.currentUser.provider == 'facebook'"><a ui-sref="admin">Admin</a></li>
+        <li ui-sref-active="active"><a ui-sref="radar({radarId: navbar.radarId})">Radar</a></li>
+        <li ui-sref-active="active"><a ui-sref="grid({radarId: navbar.radarId})">Grid</a></li>
+        <li ui-sref-active="active" ng-if="navbar.AuthService.currentUser.provider == 'facebook'"><a ui-sref="admin({radarId: navbar.radarId})">Admin</a></li>
       </ul>
 
       <ul class="Navbar-user nav navbar-nav navbar-right" >

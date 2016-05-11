@@ -1,7 +1,7 @@
 export class NavbarController {
-  constructor(AuthService) {
+  constructor(AuthService, $stateParams) {
     'ngInject';
-
+    this.radarId = $stateParams.radarId;
     this.AuthService = AuthService;
   }
 }

@@ -1,8 +1,8 @@
 export class GridPageController {
-  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, uiGridConstants) {
+  constructor(Firebase, FirebaseUrl, $stateParams, $firebaseArray, uiGridConstants) {
     'ngInject';
 
-    var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
+    var itemsRef = new Firebase(FirebaseUrl + "radars/" + $stateParams.radarId + "/items");
     var vm = this;
 
     // download the data into a local object
