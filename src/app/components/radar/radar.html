@@ -19,7 +19,10 @@
     </div>
 
     <div class="Radar-items">
-      <div class="Radar-item" ng-repeat="item in items" ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
+      <div class="Radar-item"
+           ng-repeat="item in items"
+           ng-click="onItemClick(item)"
+           ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
         <div class="Radar-item-icon" title="{{item.name}}">{{$index}}</div>
       </div>
     </div>
@@ -32,7 +35,9 @@
         <div class="RadarLabels-status" ng-repeat="status in ['Adopt', 'Trial', 'Assess', 'Hold']">
           <h4 class="RadarLabels-statusHeader">{{::status}}</h4>
           <ul class="RadarLabels-items">
-            <li class="RadarLabels-item" ng-repeat="item in items | filter: { area: area, status: status }">
+            <li class="RadarLabels-item"
+                ng-click="onItemClick(item)"
+                ng-repeat="item in items | filter: { area: area, status: status }">
               <span class="RadarLabels-icon">{{item.id}}</span><span class="RadarLabels-label">{{::item.name}}</span>
             </li>
           </ul>
@@ -40,4 +45,6 @@
       </div>
     </div>
   </div>
+
+  <div class="Radar-loader" ng-if="loader"><div class="loader"></div></div>
 </div>

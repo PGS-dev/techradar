@@ -1,5 +1,5 @@
 export class AdminPageController {
-  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, AuthService, $state, moment) {
+  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, AuthService, $state, moment, _, DATE_FORMAT) {
     'ngInject';
 
     if (!AuthService.isAuthenticated()) {
@@ -7,8 +7,11 @@ export class AdminPageController {
       return false;
     }
     var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
-    
+
     this.moment = moment;
+    this._ = _;
+    this.DATE_FORMAT = DATE_FORMAT;
+    this.user = AuthService.getCurrentUser();
     this.items = $firebaseArray(itemsRef);
     this.initForm();
   }
@@ -21,17 +24,42 @@ export class AdminPageController {
   }
 
   addItem(newItemModel) {
-    newItemModel.updated = this.moment().valueOf();
+    var currentTime = this.moment();
+
+    newItemModel.history = [];
+    newItemModel.history.push({
+      status: newItemModel.status,
+      time: currentTime.valueOf(),
+      timeString: currentTime.format(this.DATE_FORMAT),
+      user: this.user.uid
+    });
+    newItemModel.updated = currentTime.valueOf();
+    newItemModel.updatedString = currentTime.format(this.DATE_FORMAT);
+
     this.items.$add(newItemModel);
     this.initForm();
   }
 
   updateItem(updatedModel, idx) {
+    var currentTime = this.moment();
+
+    if (!this._.isArray(updatedModel.history)) {
+      updatedModel.history = [];
+    }
+    updatedModel.history.push({
+      status: updatedModel.status,
+      time: currentTime.valueOf(),
+      timeString: currentTime.format(this.DATE_FORMAT),
+      user: this.user.uid
+    });
+
     this.items[idx].name = updatedModel.name;
     this.items[idx].area = updatedModel.area;
     this.items[idx].domain = updatedModel.domain;
     this.items[idx].status = updatedModel.status;
-    this.items[idx].updated = this.moment().valueOf();
+    this.items[idx].updated = currentTime.valueOf();
+    this.items[idx].updatedString = currentTime.format(this.DATE_FORMAT);
+    this.items[idx].history = updatedModel.history;
 
     this.items.$save(this.items[idx]);
   }

@@ -26,6 +26,7 @@ angular.module('techradar', [
   .constant('FirebaseApp', 'technology-radar')
   .constant('FirebaseUrl', 'https://technology-radar.firebaseio.com/')
   .constant('RadarId', 'pgs')
+  .constant('DATE_FORMAT', 'YYYY-MM-DD HH:mm:SS')
 
   .config(config)
   .config(routerConfig)

@@ -1,4 +1,4 @@
-export function RadarDirective() {
+export function RadarDirective(_) {
   'ngInject';
 
   let directive = {
@@ -13,8 +13,14 @@ export function RadarDirective() {
   return directive;
 
   function linkFunction(scope) {
+    scope.onItemClick = onItemClick;
+    scope.viewItems = [];
+    scope.loader = true;
+
     scope.items.$loaded().then(function (items) {
-      onItemsLoaded(items, scope)
+      scope.loader = false;
+      scope.viewItems = _.clone(items, true);
+      onItemsLoaded(scope.viewItems, scope);
     })
   }
 
@@ -74,5 +80,9 @@ export function RadarDirective() {
       item.position.x =  item.position.radius * Math.cos(Math.PI / 180 * item.position.angle);
       item.position.y = item.position.radius * Math.sin(Math.PI / 180 * item.position.angle);
     })
+  }
+
+  function onItemClick(item) {
+    console.info(item);
   }
 }
