@@ -1,12 +1,13 @@
 export class AuthService {
-  constructor(Firebase, FirebaseApp, FirebaseUrl, RadarId, $firebaseObject, $firebaseArray, $firebaseAuth, $q) {
+  constructor(Firebase, FirebaseApp, FirebaseUrl, $firebaseObject, $firebaseAuth, $q, _) {
     'ngInject';
 
     var service = this,
       authRef = new Firebase(FirebaseUrl),
-      usersRef = new Firebase(FirebaseUrl + RadarId + "/users");
+      usersRef = new Firebase(FirebaseUrl + "users");
 
     this.$q = $q;
+    this._ = _;
     this.Firebase = Firebase;
     this.FirebaseApp = FirebaseApp;
     this.FirebaseUrl = FirebaseUrl;
@@ -33,15 +34,23 @@ export class AuthService {
   loginWithFacebook() {
     var service = this,
         defer = this.$q.defer();
-    
+
     this.firebaseAuth.$authWithOAuthPopup('facebook')
       .then(function (currentUser) {
         // Save curent user user
-        service.users[currentUser.uid] = currentUser;
-        service.users.$save()
+        service.users[currentUser.uid] = {
+          displayName: service._.result(currentUser, 'facebook.displayName'),
+          avatar: service._.result(currentUser, 'facebook.profileImageURL'),
+          cachedUserProfile: service._.result(currentUser, 'facebook.cachedUserProfile')
+        };
 
-        service.currentUser = currentUser;
-        defer.resolve(service.currentUser);
+        service.users.$save().then(function () {
+          service.currentUser = currentUser;
+          defer.resolve(service.currentUser);
+        }, function (error) {
+          debugger;
+        })
+
       })
       .catch(function () {
         defer.reject();
@@ -50,18 +59,49 @@ export class AuthService {
     return defer.promise;
   }
 
-  loginAsGuest() {
-    var service = this;
-    return service.firebaseAuth.$authAnonymously()
-      .then(function () {
-        return service.getCurrentUser();
+  loginWithPassword(email, password) {
+    var service = this,
+      defer = this.$q.defer();
+
+    this.firebaseAuth.$authWithPassword({
+      email: email,
+      password: password
+    })
+      .then(function (currentUser) {
+        // Save curent user user
+        service.users[currentUser.uid] = {
+          displayName: service._.result(currentUser, 'password.email'),
+          avatar: service._.result(currentUser, 'password.profileImageURL')
+        };
+
+        service.users.$save().then(function () {
+          service.currentUser = currentUser;
+          defer.resolve(service.currentUser);
+        }, function (error) {
+          debugger;
+        })
+
       })
+      .catch(function () {
+        defer.reject();
+      })
+
+    return defer.promise;
   }
 
-  fetchUserData(userId) {
-    var ref = new this.Firebase(this.FirebaseUrl + "/users/" + userId);
-    return this.$firebaseObject(ref);
-  }
+
+  // loginAsGuest() {
+  //   var service = this;
+  //   return service.firebaseAuth.$authAnonymously()
+  //     .then(function () {
+  //       return service.getCurrentUser();
+  //     })
+  // }
+
+  // fetchUserData(userId) {
+  //   var ref = new this.Firebase(this.FirebaseUrl + "/users/" + userId);
+  //   return this.$firebaseObject(ref);
+  // }
 
   isAuthenticated() {
     return !!this.getCurrentUser();

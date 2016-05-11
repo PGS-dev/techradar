@@ -102,7 +102,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         main: {
           templateUrl: 'app/pages/login/login.html',
           controller: 'LoginPageController',
-          controllerAs: 'login'
+          controllerAs: 'vm'
         }
       }
     })
