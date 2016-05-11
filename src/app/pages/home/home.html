@@ -1,0 +1,14 @@
+<section class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2>Public radars <button class="btn btn-primary pull-right" ui-sref="createRadar">Create radar</button></h2>
+          <ul>
+            <li ng-repeat="radar in vm.radars"><a ui-sref="radar({radarId: radar.id})">{{radar.title}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -3,6 +3,8 @@
 import { config } from './index.config';
 import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
+import { HomePageController } from './pages/home/home.controller';
+import { CreateRadarPageController } from './pages/create-radar/create-radar.controller';
 import { LoginPageController } from './pages/login/login.controller';
 import { AdminPageController } from './pages/admin/admin.controller';
 import { RadarPageController } from './pages/radar/radar.controller';
@@ -39,6 +41,8 @@ angular.module('techradar', [
 
   .controller('NavbarController', NavbarController)
   .controller('LoginPageController', LoginPageController)
+  .controller('HomePageController', HomePageController)
+  .controller('CreateRadarPageController', CreateRadarPageController)
   .controller('AdminPageController', AdminPageController)
   .controller('RadarPageController', RadarPageController)
   .controller('GridPageController', GridPageController)

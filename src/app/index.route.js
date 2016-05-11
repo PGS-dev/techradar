@@ -1,8 +1,38 @@
 export function routerConfig ($stateProvider, $urlRouterProvider) {
   'ngInject';
   $stateProvider
-    .state('radar', {
+    .state('home', {
       url: '/',
+      views: {
+        header: {
+          templateUrl: 'app/components/navbar/navbar.html',
+          controller: 'NavbarController',
+          controllerAs: 'navbar'
+        },
+        main: {
+          templateUrl: 'app/pages/home/home.html',
+          controller: 'HomePageController',
+          controllerAs: 'vm'
+        }
+      }
+    })
+    .state('createRadar', {
+      url: '/create-radar',
+      views: {
+        header: {
+          templateUrl: 'app/components/navbar/navbar.html',
+          controller: 'NavbarController',
+          controllerAs: 'navbar'
+        },
+        main: {
+          templateUrl: 'app/pages/create-radar/create-radar.html',
+          controller: 'CreateRadarPageController',
+          controllerAs: 'vm'
+        }
+      }
+    })
+    .state('radar', {
+      url: '/radar/:radarId',
       views: {
         header: {
           templateUrl: 'app/components/navbar/navbar.html',
