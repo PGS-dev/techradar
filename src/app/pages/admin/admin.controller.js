@@ -1,12 +1,12 @@
 export class AdminPageController {
-  constructor(Firebase, FirebaseUrl, RadarId, $firebaseArray, AuthService, $state, moment, _, DATE_FORMAT) {
+  constructor(Firebase, FirebaseUrl, $firebaseArray, AuthService, $state, $stateParams, moment, _, DATE_FORMAT) {
     'ngInject';
 
     if (!AuthService.isAuthenticated()) {
       $state.go('login');
       return false;
     }
-    var itemsRef = new Firebase(FirebaseUrl + RadarId + "/items");
+    var itemsRef = new Firebase(FirebaseUrl + "radars/" +  $stateParams.radarId + "/items");
 
     this.moment = moment;
     this._ = _;

@@ -1,8 +1,8 @@
 export class TechnologyPageController {
-  constructor(Firebase, FirebaseUrl, RadarId, $firebaseObject, moment, _, DATE_FORMAT, $stateParams) {
+  constructor(Firebase, FirebaseUrl, $firebaseObject, moment, _, DATE_FORMAT, $stateParams) {
     'ngInject';
 
-    var itemRef = new Firebase(FirebaseUrl + RadarId + "/items/" + $stateParams.techId);
+    var itemRef = new Firebase(FirebaseUrl + "radars/" + $stateParams.radarId + "/items/" + $stateParams.techId);
 
     this.moment = moment;
     this._ = _;

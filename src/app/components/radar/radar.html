@@ -34,7 +34,7 @@
            ng-repeat="item in vm.viewItems | filter: {name: vm.search}"
            ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
         <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}"
-           ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.idx}}</a>
+           ui-sref="{{::stateOnClick}}({radarId: radarId, techName: item.name, techId: item.$id})">{{::item.idx}}</a>
       </div>
     </div>
   </div>
@@ -50,7 +50,7 @@
                 ng-click="vm.callback(item)"
                 ng-repeat="item in vm.viewItems | filter: { area: area, status: status, name: vm.search }">
               <span class="RadarLabels-icon">{{::item.idx}}</span><a class="RadarLabels-label"
-                                                                     ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.name}}</a>
+                                                                     ui-sref="{{::stateOnClick}}({radarId: radarId, techName: item.name, techId: item.$id})">{{::item.name}}</a>
             </li>
           </ul>
         </div>

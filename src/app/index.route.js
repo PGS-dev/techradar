@@ -62,7 +62,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('technology', {
-      url: '/technology/:techName/:techId',
+      url: '/technology/:radarId/:techName/:techId',
       views: {
         header: {
           templateUrl: 'app/components/navbar/navbar.html',
@@ -77,7 +77,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('admin', {
-      url: '/admin',
+      url: '/admin/:radarId',
       views: {
         header: {
           templateUrl: 'app/components/navbar/navbar.html',

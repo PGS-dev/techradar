@@ -6,6 +6,7 @@ export function RadarDirective(_) {
     templateUrl: 'app/components/radar/radar.html',
     scope: {
       items: '=',
+      radarId: '=',
       stateOnClick: '='
     },
     link: linkFunction
