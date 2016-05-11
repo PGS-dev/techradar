@@ -22,7 +22,7 @@
       <div class="Radar-item"
            ng-repeat="item in vm.viewItems"
            ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
-        <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}" ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.idx})">{{::item.idx}}</a>
+        <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}" ui-sref="{{::stateOnClick}}({techName: item.name, techId: item.$id})">{{::item.idx}}</a>
       </div>
     </div>
   </div>
