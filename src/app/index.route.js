@@ -16,6 +16,21 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('grid', {
+      url: '/grid',
+      views: {
+        header: {
+          templateUrl: 'app/components/navbar/navbar.html',
+          controller: 'NavbarController',
+          controllerAs: 'navbar'
+        },
+        main: {
+          templateUrl: 'app/pages/grid/grid.html',
+          controller: 'GridPageController',
+          controllerAs: 'vm'
+        }
+      }
+    })
     .state('technology', {
       url: '/technology/:techName/:techId',
       views: {
@@ -50,7 +65,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       url: '/login',
       views: {
         header: {
-          templateUrl: 'app/components/navbar/navbar-guest.html',
+          templateUrl: 'app/components/navbar/navbar.html',
           controller: 'NavbarController',
           controllerAs: 'navbar'
         },

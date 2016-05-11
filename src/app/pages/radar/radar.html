@@ -4,15 +4,4 @@
       <radar items="vm.items" state-on-click="'technology'"></radar>
     </div>
   </div>
-
-  <button class="btn" ng-click="vm.isTableVisible = true" ng-show="!vm.isTableVisible">Show table</button>
-  <button class="btn" ng-click="vm.isTableVisible = false" ng-show="vm.isTableVisible">Hide table</button>
-  <hr>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="panel panel-default" ng-if="vm.isTableVisible">
-        <div id="grid1" ui-grid="vm.gridOptions" class="grid" ng-if="vm.gridOptions"></div>
-      </div>
-    </div>
-  </div>
 </section>

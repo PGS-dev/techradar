@@ -9,7 +9,8 @@
     <nav class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a ui-sref="radar">Radar</a></li>
-        <li><a ui-sref="admin">Admin</a></li>
+        <li ui-sref-active="active"><a ui-sref="grid">Grid</a></li>
+        <li ui-sref-active="active" ng-if="navbar.AuthService.currentUser.provider == 'facebook'"><a ui-sref="admin">Admin</a></li>
       </ul>
 
       <ul class="Navbar-user nav navbar-nav navbar-right" >
@@ -25,6 +26,9 @@
           <a ui-sref="login" class="Navbar-userLink">
             Hello guest!
           </a>
+        </li>
+        <li ui-sref-active="active" ng-if="!login.AuthService.currentUser">
+          <a ui-sref="login">Login</a>
         </li>
       </ul>
     </nav>

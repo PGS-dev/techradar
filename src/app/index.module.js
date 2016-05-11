@@ -6,6 +6,7 @@ import { runBlock } from './index.run';
 import { LoginPageController } from './pages/login/login.controller';
 import { AdminPageController } from './pages/admin/admin.controller';
 import { RadarPageController } from './pages/radar/radar.controller';
+import { GridPageController } from './pages/grid/grid.controller';
 import { TechnologyPageController } from './pages/technology/technology.controller';
 import { NavbarController } from './components/navbar/navbar.controller';
 import { AuthService } from '../app/components/auth/auth.service';
@@ -40,6 +41,7 @@ angular.module('techradar', [
   .controller('LoginPageController', LoginPageController)
   .controller('AdminPageController', AdminPageController)
   .controller('RadarPageController', RadarPageController)
+  .controller('GridPageController', GridPageController)
   .controller('TechnologyPageController', TechnologyPageController)
   .directive('radar', RadarDirective)
   .directive('fullScreen', FullScreenDirective)

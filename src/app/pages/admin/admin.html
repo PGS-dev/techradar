@@ -1,7 +1,12 @@
 <section class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Admin</h1>
+      <h1>Admin
+        <div class="Admin-search pull-right">
+          <input type="text" class="form-control pull-right" placeholder="Filter" ng-model="vm.search"/>
+        </div>
+      </h1>
+
 
       <div class="panel panel-default">
         <div class="panel-body">
@@ -18,9 +23,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in vm.items">
+            <tr ng-repeat="item in vm.items | filter: {name: vm.search}">
               <td>{{item.domain}}</td>
-              <td>{{item.name}}</td>
+              <td><a ui-sref="technology({techId: item.$id, techName: item.name})">{{item.name}}</a></td>
               <td>{{item.area}}</td>
               <td>{{item.status}}</td>
               <td>{{item.updated | date:'yyyy-MM-dd'}}</td>
@@ -37,7 +42,8 @@
       </div>
 
       <div>
-        <button class="btn btn-primary btn-lg" ng-click="vm.addItemForm()" ng-show="!vm.adminFormVisible">New Item</button>
+        <button class="btn btn-primary btn-lg" ng-click="vm.addItemForm()" ng-show="!vm.adminFormVisible">New Item
+        </button>
       </div>
 
 
