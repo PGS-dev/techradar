@@ -5,16 +5,20 @@ export class CreateRadarPageController {
     var vm = this,
       itemsRef = new Firebase(FirebaseUrl + "/radars");
 
+    this.user = AuthService.getCurrentUser();
+    if (!this.user) {
+      $state.go('login');
+      return;
+    }
     this.$state = $state;
     this.moment = moment;
     this._ = _;
     this.DATE_FORMAT = DATE_FORMAT;
-    this.user = AuthService.getCurrentUser();
+
     // download the data into a local object
     this.items = $firebaseObject(itemsRef);
 
     this.initForm();
-
   }
 
   initForm() {
@@ -35,6 +39,9 @@ export class CreateRadarPageController {
   addItem(newItemModel) {
     var currentTime = this.moment();
 
+    debugger
+    newItemModel.items = [];
+    newItemModel.author = this.user.uid;
     newItemModel.created = currentTime.valueOf();
     newItemModel.createdString = currentTime.format(this.DATE_FORMAT);
 
