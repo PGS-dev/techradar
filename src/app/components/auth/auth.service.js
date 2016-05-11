@@ -39,6 +39,7 @@ export class AuthService {
       .then(function (currentUser) {
         // Save curent user user
         service.users[currentUser.uid] = {
+          uid: service._.result(currentUser, 'uid'),
           displayName: service._.result(currentUser, 'facebook.displayName'),
           avatar: service._.result(currentUser, 'facebook.profileImageURL'),
           cachedUserProfile: service._.result(currentUser, 'facebook.cachedUserProfile')
