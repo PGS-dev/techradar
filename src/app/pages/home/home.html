@@ -13,7 +13,7 @@
 
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2>Public radars</h2>
+          <h2>Public radars <button ng-if="!vm.AuthService.currentUser" class="btn btn-primary pull-right" ui-sref="createRadar">Create radar</button></h2>
           <ul>
             <li ng-repeat="radar in vm.radars | filter: {isPublic: true}"><a ui-sref="radar({radarId: radar.id})">{{radar.title}}</a></li>
           </ul>
