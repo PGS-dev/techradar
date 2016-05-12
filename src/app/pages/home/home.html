@@ -1,6 +1,13 @@
 <section class="container">
   <div class="row">
     <div class="col-sm-12">
+      <div class="jumbotron" ng-if="!vm.AuthService.currentUser">
+        <h1>Hello!</h1>
+        <p>Do you like <strong>Technology Radars</strong> from <em><a href="https://www.thoughtworks.com/radar" target="_blank" rel="nofollow">ThoughtWorks</a></em>? We like `em too :)
+          <br>Here you can <a ui-sref="createRadar">create your own</a> technology radar in couple minutes! And yeah... it`s completely free.
+        </p>
+        <p><a class="btn btn-primary btn-lg" ui-sref="createRadar" role="button">Start now</a></p>
+      </div>
 
       <div class="panel panel-default" ng-if="vm.AuthService.currentUser">
         <div class="panel-body">

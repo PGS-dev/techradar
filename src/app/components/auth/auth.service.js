@@ -1,5 +1,5 @@
 export class AuthService {
-  constructor(Firebase, FirebaseApp, FirebaseUrl, $firebaseObject, $firebaseAuth, $q, _) {
+  constructor(Firebase, FirebaseApp, FirebaseUrl, $firebaseObject, $firebaseAuth, $q, _, moment) {
     'ngInject';
 
     var service = this,
@@ -8,6 +8,7 @@ export class AuthService {
 
     this.$q = $q;
     this._ = _;
+    this.moment = moment;
     this.Firebase = Firebase;
     this.FirebaseApp = FirebaseApp;
     this.FirebaseUrl = FirebaseUrl;
@@ -69,10 +70,10 @@ export class AuthService {
     })
       .then(function (currentUser) {
         // Save curent user user
-        service.users[currentUser.uid] = {
-          displayName: service._.result(currentUser, 'password.email'),
-          avatar: service._.result(currentUser, 'password.profileImageURL')
-        };
+        service.users[currentUser.uid] = angular.extend(service.users[currentUser.uid], {
+          avatar: service._.result(currentUser, 'password.profileImageURL'),
+          lastLogin: service.moment().valueOf()
+        })
 
         service.users.$save().then(function () {
           service.currentUser = currentUser;
@@ -85,7 +86,7 @@ export class AuthService {
     return defer.promise;
   }
 
-  createUser(email, password) {
+  createUser(email, password, displayName) {
     var service = this,
       defer = this.$q.defer();
 
@@ -96,7 +97,17 @@ export class AuthService {
         email: email,
         password: password
       })
-      .then(() => service.loginWithPassword(email, password))
+      .then(function (currentUser) {
+        // Save curent user
+        service.users[currentUser.uid] = {
+          displayName: displayName,
+          created: service.moment().valueOf()
+        };
+
+        service.users.$save()
+          .then(() => service.loginWithPassword(email, password))
+      })
+
       .catch((error) => defer.reject(error))
 
     return defer.promise;

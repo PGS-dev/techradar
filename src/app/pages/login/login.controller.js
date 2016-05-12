@@ -63,7 +63,8 @@ export class LoginPageController {
   createUser() {
     var vm = this,
       email = this.registerForm.model.email,
-      password = this.registerForm.model.password;
+      password = this.registerForm.model.password,
+      displayName = this.registerForm.model.displayName;
 
     if (!email || !password) {
       return false;
@@ -71,7 +72,7 @@ export class LoginPageController {
 
     vm.errors = [];
 
-    return this.AuthService.createUser(email, password)
+    return this.AuthService.createUser(email, password, displayName)
       .then(() => vm.$state.go('home'))
       .catch((error) => {vm.errors.push(error)})
   }
@@ -103,6 +104,15 @@ export class LoginPageController {
     var vm = this;
     return [
       {
+        key: 'displayName',
+        type: 'input',
+        templateOptions: {
+          label: 'Your name',
+          type: 'text',
+          required: true
+        }
+      },
+      {
         key: 'email',
         type: 'input',
         templateOptions: {
@@ -128,6 +138,7 @@ export class LoginPageController {
           type: 'password',
           required: true
         },
+        hideExpression: "!model.password",
         data: {
           fieldToMatch: 'password'
         },

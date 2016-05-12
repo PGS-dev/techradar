@@ -25,9 +25,8 @@
                   <!--</div>-->
                 </formly-form>
               </form>
-
+              <hr>
               <div class="text-center" ng-if="!vm.AuthService.currentUser">
-                <hr>
                 <button class="btn btn-facebook" ng-click="vm.facebookLogin()" style="background: #3b5998; color: #fff;">Login With Facebook</button>
               </div>
             </div>
@@ -41,7 +40,8 @@
               <hr>
               <form name="vm.registerForm.form" novalidate ng-submit="vm.createUser()">
                 <formly-form  model="vm.registerForm.model" fields="vm.registerForm.fields">
-                  <button type="submit" class="btn btn-primary" ng-disabled="vm.registerForm.form.$invalid">Create account</button>
+                  <button type="submit" class="btn btn-primary"
+                          ng-disabled="!vm.registerForm.model.displayName || !vm.registerForm.model.email || !vm.registerForm.model.password || !vm.registerForm.model.passwordConfirmation || vm.registerForm.form.$invalid">Create account</button>
                 </formly-form>
               </form>
             </div>
