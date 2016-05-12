@@ -15,15 +15,6 @@ export class GridPageController {
         "data": data,
         "columnDefs": [
           {
-            field: 'domain',
-            filter: {
-              selectOptions: _.map([...new Set(_.map(data, 'domain'))], function (item) {
-                return {label: item, value: item}
-              }),
-              type: uiGridConstants.filter.SELECT
-            }
-          },
-          {
             field: 'name'
           },
           {

@@ -73,20 +73,6 @@ export class AdminPageController {
   getFieldsDefinition() {
     return [
       {
-        key: 'domain',
-        type: 'select',
-        defaultValue: 'Frontend',
-        templateOptions: {
-          label: 'Domain:',
-          options: [
-            {value: 'Frontend', name: 'Frontend'},
-            {value: 'Backend', name: 'Backend'},
-            {value: 'QA', name: 'QA'},
-            {value: 'Design & UX', name: 'Design & UX'}
-          ]
-        }
-      },
-      {
         key: 'name',
         type: 'input',
         templateOptions: {
