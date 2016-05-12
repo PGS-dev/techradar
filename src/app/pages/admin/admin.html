@@ -29,10 +29,10 @@
               <td>{{item.status}}</td>
               <td>{{item.updated | date:'yyyy-MM-dd'}}</td>
               <td>
-                <button class="btn btn-xs btn-default" ng-click="vm.editItemForm($index)">Edit</button>
+                <button class="btn btn-xs btn-default" ng-click="vm.editItemForm(item.$id)">Edit</button>
               </td>
               <td>
-                <button class="btn btn-xs btn-danger" ng-click="vm.removeItem($index)">X</button>
+                <button class="btn btn-xs btn-danger" ng-click="vm.removeItem(item.$id)">X</button>
               </td>
             </tr>
             </tbody>

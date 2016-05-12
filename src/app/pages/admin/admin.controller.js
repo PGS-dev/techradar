@@ -135,7 +135,7 @@ export class AdminPageController {
   onSubmit() {
     // Edit
     if (this.adminForm.model.$id) {
-      this.updateItem(this.adminForm.model, this.editedIdx);
+      this.updateItem(this.adminForm.model, _.findIndex(this.items, {'$id': this.adminForm.model.$id}));
     } else {
       // Create new
       this.addItem(this.adminForm.model);
@@ -153,10 +153,9 @@ export class AdminPageController {
     this.adminFormVisible = true;
   }
 
-  editItemForm(index) {
+  editItemForm(id) {
     this.initForm();
-    this.editedIdx = index;
-    this.adminForm.model = angular.copy(this.items[index]);
+    this.adminForm.model = angular.copy(_.find(this.items, {'$id': id}));
     this.adminFormVisible = true;
   }
 }
