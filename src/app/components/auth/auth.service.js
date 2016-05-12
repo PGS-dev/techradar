@@ -12,7 +12,6 @@ export class AuthService {
     this.FirebaseApp = FirebaseApp;
     this.FirebaseUrl = FirebaseUrl;
     this.firebaseAuth = $firebaseAuth(authRef);
-    this.$firebaseObject = $firebaseObject;
     this.users = $firebaseObject(usersRef);
 
     // Restore user session if possible
@@ -78,31 +77,30 @@ export class AuthService {
         service.users.$save().then(function () {
           service.currentUser = currentUser;
           defer.resolve(service.currentUser);
-        }, function (error) {
-          debugger;
-        })
+        }, (error) => defer.reject(error))
 
       })
-      .catch(function () {
-        defer.reject();
-      })
+      .catch((error) => defer.reject(error))
 
     return defer.promise;
   }
 
+  createUser(email, password) {
+    var service = this,
+      defer = this.$q.defer();
 
-  // loginAsGuest() {
-  //   var service = this;
-  //   return service.firebaseAuth.$authAnonymously()
-  //     .then(function () {
-  //       return service.getCurrentUser();
-  //     })
-  // }
+    if (!email || !password)
+      return;
 
-  // fetchUserData(userId) {
-  //   var ref = new this.Firebase(this.FirebaseUrl + "/users/" + userId);
-  //   return this.$firebaseObject(ref);
-  // }
+    this.firebaseAuth.$createUser({
+        email: email,
+        password: password
+      })
+      .then(() => service.loginWithPassword(email, password))
+      .catch((error) => defer.reject(error))
+
+    return defer.promise;
+  }
 
   isAuthenticated() {
     return !!this.getCurrentUser();
