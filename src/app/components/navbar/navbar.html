@@ -8,26 +8,23 @@
 
     <nav class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a ui-sref="radar({radarId: navbar.radarId})">Radar</a></li>
-        <li ui-sref-active="active"><a ui-sref="grid({radarId: navbar.radarId})">Grid</a></li>
-        <li ui-sref-active="active" ng-if="navbar.AuthService.currentUser.provider == 'facebook'"><a ui-sref="admin({radarId: navbar.radarId})">Admin</a></li>
+        <li ui-sref-active="active" ><a ui-sref="home">Home</a></li>
+        <li ui-sref-active="active" ng-show="navbar.radarId"><a ui-sref="radar({radarId: navbar.radarId})">Radar</a></li>
+        <li ui-sref-active="active" ng-show="navbar.radarId"><a ui-sref="grid({radarId: navbar.radarId})">Grid</a></li>
+        <!-- TODO: Check permissions by current user and radar creator -->
+        <li ui-sref-active="active" ng-show="navbar.radarId" ng-if="navbar.AuthService.currentUser.password.email == 'info@michalhans.pl'"><a ui-sref="admin({radarId: navbar.radarId})">Admin</a></li>
       </ul>
 
       <ul class="Navbar-user nav navbar-nav navbar-right" >
         <li><a href="" full-screen>FULL</a></li>
-        <li ng-if="navbar.AuthService.currentUser.provider == 'facebook'">
+        <li ng-if="navbar.AuthService.currentUser" ui-sref-active="active">
           <a ui-sref="login" class="Navbar-userLink">
-            <img class="Navbar-avatar" ng-src="{{navbar.AuthService.currentUser.facebook.profileImageURL}}" alt="">
-            Hello {{navbar.AuthService.currentUser.facebook.displayName}}!
+            <img class="Navbar-avatar" ng-src="{{navbar.AuthService.currentUser.facebook.profileImageURL || navbar.AuthService.currentUser.password.profileImageURL}}" alt="">
+            {{navbar.AuthService.currentUser.facebook.displayName || navbar.AuthService.currentUser.password.email}}
           </a>
         </li>
 
-        <li ng-if="login.AuthService.currentUser.provider == 'anonymous'">
-          <a ui-sref="login" class="Navbar-userLink">
-            Hello guest!
-          </a>
-        </li>
-        <li ui-sref-active="active" ng-if="!login.AuthService.currentUser">
+        <li ui-sref-active="active" ng-if="!navbar.AuthService.currentUser">
           <a ui-sref="login">Login</a>
         </li>
       </ul>

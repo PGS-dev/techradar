@@ -7,10 +7,9 @@
         </div>
       </h1>
 
-
       <div class="panel panel-default">
-        <div class="panel-body">
-          <table class="table">
+        <div class="panel-body" style="max-height: 400px; overflow-y: auto">
+          <table class="table" >
             <thead>
             <tr>
               <th>Domain</th>
@@ -25,7 +24,7 @@
             <tbody>
             <tr ng-repeat="item in vm.items | filter: {name: vm.search}">
               <td>{{item.domain}}</td>
-              <td><a ui-sref="technology({techId: item.$id, techName: item.name})">{{item.name}}</a></td>
+              <td><a ui-sref="technology({radarId: vm.radarId, techId: item.$id, techName: item.name})">{{item.name}}</a></td>
               <td>{{item.area}}</td>
               <td>{{item.status}}</td>
               <td>{{item.updated | date:'yyyy-MM-dd'}}</td>
@@ -46,7 +45,6 @@
         </button>
       </div>
 
-
       <div class="panel panel-default" ng-show="vm.adminFormVisible">
         <div class="panel-body">
           <formly-form model="vm.adminForm.model" fields="vm.adminForm.fields">
@@ -55,9 +53,6 @@
           </formly-form>
         </div>
       </div>
-
-      <!--<pre>{{vm.adminForm | json}}</pre>-->
-      <!--<pre>{{vm.adminForm.model | json}}</pre>-->
     </div>
   </div>
 </section>

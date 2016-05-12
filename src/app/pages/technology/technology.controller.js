@@ -8,5 +8,6 @@ export class TechnologyPageController {
     this._ = _;
     this.DATE_FORMAT = DATE_FORMAT;
     this.item = $firebaseObject(itemRef);
+    this.radarId = $stateParams.radarId;
   }
 }

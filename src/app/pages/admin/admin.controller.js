@@ -13,6 +13,7 @@ export class AdminPageController {
     this.DATE_FORMAT = DATE_FORMAT;
     this.user = AuthService.getCurrentUser();
     this.items = $firebaseArray(itemsRef);
+    this.radarId = $stateParams.radarId;
     this.initForm();
   }
 
