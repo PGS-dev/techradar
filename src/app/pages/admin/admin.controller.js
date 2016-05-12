@@ -66,8 +66,8 @@ export class AdminPageController {
     this.items.$save(this.items[idx]);
   }
 
-  removeItem(index) {
-    this.items.$remove(index, 1);
+  removeItem(id) {
+    this.items.$remove(_.findIndex(this.items, {'$id': id}), 1);
   }
 
   getFieldsDefinition() {
