@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" ui-sref="home">
-        Technology Radar
+        {{navbar.currentRadar.title || 'Technology Radar'}}
       </a>
     </div>
 
@@ -12,7 +12,7 @@
         <li ui-sref-active="active" ng-show="navbar.radarId"><a ui-sref="radar({radarId: navbar.radarId})">Radar</a></li>
         <li ui-sref-active="active" ng-show="navbar.radarId"><a ui-sref="grid({radarId: navbar.radarId})">Grid</a></li>
         <!-- TODO: Check permissions by current user and radar creator -->
-        <li ui-sref-active="active" ng-show="navbar.radarId" ng-if="navbar.AuthService.currentUser.password.email == 'mhans@pgs-soft.com'"><a ui-sref="admin({radarId: navbar.radarId})">Admin</a></li>
+        <li ui-sref-active="active" ng-show="navbar.radarId" ng-if="navbar.AuthService.currentUser.uid === navbar.currentRadar.author"><a ui-sref="admin({radarId: navbar.radarId})">Admin</a></li>
       </ul>
 
       <ul class="Navbar-user nav navbar-nav navbar-right" >

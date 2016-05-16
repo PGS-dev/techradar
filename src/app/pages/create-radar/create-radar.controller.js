@@ -2,9 +2,6 @@ export class CreateRadarPageController {
   constructor(Firebase, FirebaseUrl, $firebaseObject, moment, DATE_FORMAT, AuthService, $state) {
     'ngInject';
 
-    var vm = this,
-      itemsRef = new Firebase(FirebaseUrl + "/radars");
-
     this.user = AuthService.getCurrentUser();
     if (!this.user) {
       $state.go('login');
@@ -14,9 +11,9 @@ export class CreateRadarPageController {
     this.moment = moment;
     this._ = _;
     this.DATE_FORMAT = DATE_FORMAT;
-
-    // download the data into a local object
-    this.items = $firebaseObject(itemsRef);
+    this.Firebase = Firebase;
+    this.FirebaseUrl = FirebaseUrl;
+    this.$firebaseObject = $firebaseObject;
 
     this.initForm();
   }
@@ -39,21 +36,25 @@ export class CreateRadarPageController {
   addItem(newItemModel) {
     var currentTime = this.moment();
 
-    debugger
+    this.newItem = this.getItemObject(newItemModel.id)
+
     newItemModel.items = [];
     newItemModel.author = this.user.uid;
     newItemModel.created = currentTime.valueOf();
     newItemModel.createdString = currentTime.format(this.DATE_FORMAT);
+    this.newItem = angular.extend(this.newItem, newItemModel);
 
-    this.items[newItemModel.id] = newItemModel;
-    this.items.$save()
+    this.newItem.$save()
       .then(() =>
           this.$state.go('radar', {radarId: newItemModel.id})
         ,(error) =>
           console.warn('Error', error)
       )
+  }
 
-
+  getItemObject(itemId) {
+    this.itemRef = new this.Firebase(this.FirebaseUrl + "radars/" + itemId);
+    return new this.$firebaseObject(this.itemRef);
   }
 
   getFieldsDefinition() {

@@ -12,7 +12,6 @@
           <table class="table" >
             <thead>
             <tr>
-              <th>Domain</th>
               <th>Name</th>
               <th>Area</th>
               <th>Status</th>
@@ -23,7 +22,6 @@
             </thead>
             <tbody>
             <tr ng-repeat="item in vm.items | filter: {name: vm.search}">
-              <td>{{item.domain}}</td>
               <td><a ui-sref="technology({radarId: vm.radarId, techId: item.$id, techName: item.name})">{{item.name}}</a></td>
               <td>{{item.area}}</td>
               <td>{{item.status}}</td>

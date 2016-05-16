@@ -3,17 +3,17 @@ export class AuthService {
     'ngInject';
 
     var service = this,
-      authRef = new Firebase(FirebaseUrl),
-      usersRef = new Firebase(FirebaseUrl + "users");
+      authRef = new Firebase(FirebaseUrl);
 
     this.$q = $q;
     this._ = _;
     this.moment = moment;
     this.Firebase = Firebase;
+    this.$firebaseObject = $firebaseObject;
     this.FirebaseApp = FirebaseApp;
     this.FirebaseUrl = FirebaseUrl;
     this.firebaseAuth = $firebaseAuth(authRef);
-    this.users = $firebaseObject(usersRef);
+    this.userRef = null; // build reference when get user uid
 
     // Restore user session if possible
     this.getCurrentUser();
@@ -33,29 +33,24 @@ export class AuthService {
 
   loginWithFacebook() {
     var service = this,
-        defer = this.$q.defer();
+      defer = this.$q.defer();
 
     this.firebaseAuth.$authWithOAuthPopup('facebook')
       .then(function (currentUser) {
         // Save curent user user
-        service.users[currentUser.uid] = {
-          uid: service._.result(currentUser, 'uid'),
-          displayName: service._.result(currentUser, 'facebook.displayName'),
-          avatar: service._.result(currentUser, 'facebook.profileImageURL'),
-          cachedUserProfile: service._.result(currentUser, 'facebook.cachedUserProfile')
-        };
+        service.userObj = service.getUserObject(currentUser.uid);
+        service.userObj.uid = service._.result(currentUser, 'uid');
+        service.userObj.displayName = service._.result(currentUser, 'facebook.displayName');
+        service.userObj.avatar = service._.result(currentUser, 'facebook.profileImageURL');
+        service.userObj.cachedUserProfile = service._.result(currentUser, 'facebook.cachedUserProfile');
 
-        service.users.$save().then(function () {
+        service.userObj.$save().then(() => {
           service.currentUser = currentUser;
           defer.resolve(service.currentUser);
-        }, function (error) {
-          debugger;
-        })
+        }, (error) => defer.reject(error))
 
       })
-      .catch(function () {
-        defer.reject();
-      })
+      .catch((error) => defer.reject(error));
 
     return defer.promise;
   }
@@ -69,13 +64,13 @@ export class AuthService {
       password: password
     })
       .then(function (currentUser) {
-        // Save curent user user
-        service.users[currentUser.uid] = angular.extend(service.users[currentUser.uid], {
-          avatar: service._.result(currentUser, 'password.profileImageURL'),
-          lastLogin: service.moment().valueOf()
-        })
+        // Save currnt user data
+        service.userObj = service.getUserObject(currentUser.uid);
+        service.userObj.email = email;
+        service.userObj.avatar = service._.result(currentUser, 'password.profileImageURL');
+        service.userObj.lastLogin = service.moment().valueOf();
 
-        service.users.$save().then(function () {
+        service.userObj.$save().then(() => {
           service.currentUser = currentUser;
           defer.resolve(service.currentUser);
         }, (error) => defer.reject(error))
@@ -94,20 +89,19 @@ export class AuthService {
       return;
 
     this.firebaseAuth.$createUser({
-        email: email,
-        password: password
-      })
+      email: email,
+      password: password
+    })
       .then(function (currentUser) {
-        // Save curent user
-        service.users[currentUser.uid] = {
-          displayName: displayName,
-          created: service.moment().valueOf()
-        };
+        // Save created user
+        service.userObj = service.getUserObject(currentUser.uid);
+        service.userObj.email = email;
+        service.userObj.displayName = displayName;
+        service.userObj.created = service.moment().valueOf();
 
-        service.users.$save()
+        service.userObj.$save()
           .then(() => service.loginWithPassword(email, password))
       })
-
       .catch((error) => defer.reject(error))
 
     return defer.promise;
@@ -118,7 +112,13 @@ export class AuthService {
   }
 
   logout() {
+    this.userRef = undefined;
     this.firebaseAuth.$unauth();
     this.getCurrentUser();
+  }
+
+  getUserObject(userId) {
+    this.userRef = new this.Firebase(this.FirebaseUrl + "users/" + userId);
+    return new this.$firebaseObject(this.userRef);
   }
 }

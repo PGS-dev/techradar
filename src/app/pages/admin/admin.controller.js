@@ -56,7 +56,6 @@ export class AdminPageController {
 
     this.items[idx].name = updatedModel.name;
     this.items[idx].area = updatedModel.area;
-    this.items[idx].domain = updatedModel.domain;
     this.items[idx].description = updatedModel.description || '';
     this.items[idx].status = updatedModel.status;
     this.items[idx].updated = currentTime.valueOf();

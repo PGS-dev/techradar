@@ -5,7 +5,6 @@ export class LoginPageController {
     this.AuthService = AuthService;
     this.$state = $state;
 
-
     this.initForms();
   }
 
@@ -22,14 +21,6 @@ export class LoginPageController {
       fields: vm.getRegisterFieldsDefinition()
     }
   }
-
-  // loginAsGuest() {
-  //   var vm = this;
-  //   this.AuthService.loginAsGuest()
-  //     .then(function () {
-  //       vm.$state.go('home');
-  //     })
-  // }
 
   logout() {
     return this.AuthService.logout();
