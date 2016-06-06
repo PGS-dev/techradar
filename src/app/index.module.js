@@ -14,6 +14,7 @@ import { NavbarController } from './components/navbar/navbar.controller';
 import { AuthService } from '../app/components/auth/auth.service';
 import { RadarDirective } from '../app/components/radar/radar.directive';
 import { FullScreenDirective } from '../app/components/fullscreen/fullscreen.directive';
+import { TimeFilterDirective } from '../app/components/time-filter/time-filter.directive';
 
 angular.module('techradar', [
   'ui.router',
@@ -49,4 +50,5 @@ angular.module('techradar', [
   .controller('TechnologyPageController', TechnologyPageController)
   .directive('radar', RadarDirective)
   .directive('fullScreen', FullScreenDirective)
+  .directive('timeFilter', TimeFilterDirective)
 

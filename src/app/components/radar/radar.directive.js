@@ -21,9 +21,12 @@ export function RadarDirective(_) {
     vm.viewItems = [];
     vm.loader = true;
 
-    scope.items.$loaded().then(function (items) {
+    scope.$watch('items', function (newItems, oldItems) {
+      if (!newItems) return;
+      // if (_.isEqual(newItems, oldItems)) return;
+
       vm.loader = false;
-      vm.viewItems = _.clone(items, true);
+      vm.viewItems = _.clone(newItems, true);
       onItemsLoaded(vm.viewItems, scope);
     })
   }
