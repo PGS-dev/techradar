@@ -77,15 +77,25 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('admin', {
-      url: '/admin/:radarId',
+    url: '/admin/:radarId',
+    views: {
+      header: {
+        templateUrl: 'app/components/navbar/navbar.html',
+        controller: 'NavbarController',
+        controllerAs: 'navbar'
+      },
+      main: {
+        templateUrl: 'app/pages/admin/admin.html',
+        controller: 'AdminPageController',
+        controllerAs: 'vm'
+      }
+    }
+  })
+    .state('admin.snapshot', {
+      url: '/snapshot',
       views: {
-        header: {
-          templateUrl: 'app/components/navbar/navbar.html',
-          controller: 'NavbarController',
-          controllerAs: 'navbar'
-        },
-        main: {
-          templateUrl: 'app/pages/admin/admin.html',
+        'main@': {
+          templateUrl: 'app/pages/admin/snapshot/admin-snapshot.html',
           controller: 'AdminPageController',
           controllerAs: 'vm'
         }

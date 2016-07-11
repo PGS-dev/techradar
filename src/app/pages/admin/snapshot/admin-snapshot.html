@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <div>
+    <label>
+      <input type="text" placeholder="Snapshot name" class="form-control">
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="text" placeholder="Snapshot description" class="form-control">
+    </label>
+  </div>
+
+
+  <p class="text-right">
+    <button class="btn btn-primary">+ New technology</button>
+  </p>
+
+
+  <div class="table-responsive">
+    <table class="table table-condensed table-hover">
+      <thead>
+      <tr style="background: #eee;">
+        <th>Name</th>
+        <th>Category</th>
+        <th>History</th>
+        <th>New status</th>
+        <th>Visible</th>
+      </tr>
+      <tr style="background: #eee">
+        <th>
+          <input type="text" class="form-control input-sm" placeholder="Filter..." ng-model="vm.searchName">
+        </th>
+        <th>
+          <select class="form-control input-sm" ng-model="vm.searchCategory">
+            <option value="">Filter...</option>
+            <option value="Languages & Frameworks">Languages & Frameworks</option>
+            <option value="Tools">Tools</option>
+            <option value="Techniques">Techniques</option>
+            <option value="Platforms">Platforms</option>
+          </select>
+        </th>
+        <th></th>
+        <th>
+        </th>
+        <th></th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in vm.items | filter: {name: vm.searchName, area: vm.searchCategory} | orderBy: 'area'">
+        <td>{{item.name}}</td>
+        <td>
+          {{item.area}}
+        </td>
+        <td>
+          {{item.status}}
+        </td>
+        <td>
+          <button class="btn btn-link" ng-click="item.newStatus = item.status" ng-if="!item.newStatus">Set</button>
+          <select class="form-control" ng-model="item.newStatus" ng-if="item.newStatus">
+            <option value="Adopt" ng-selected="item.newStatus === 'Adopt'">Adopt</option>
+            <option value="Trial" ng-selected="item.newStatus === 'Trial'">Trial</option>
+            <option value="Assess" ng-selected="item.newStatus === 'Assess'">Assess</option>
+            <option value="Hold" ng-selected="item.newStatus === 'Hold'">Hold</option>
+          </select>
+        </td>
+        <td>
+          <button class="btn btn-default" ng-if="!item.newStatus" ng-click="item.newStatus = item.status">No</button>
+          <button class="btn btn-success" ng-if="item.newStatus" ng-click="item.newStatus = undefined">Yes</button>
+        </td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Angular" class="form-control"></td>
+        <td>
+          <select class="form-control">
+            <option value="Languages & Frameworks">Languages & Frameworks</option>
+          </select>
+        </td>
+        <td>
+          {{item.status}}
+        </td>
+        <td>
+          <button class="btn btn-link" ng-click="item.newStatus = item.status" ng-if="!item.newStatus">Set</button>
+          <select class="form-control" ng-model="item.newStatus" ng-if="item.newStatus">
+            <option value="Adopt" ng-selected="item.newStatus === 'Adopt'">Adopt</option>
+            <option value="Trial" ng-selected="item.newStatus === 'Trial'">Trial</option>
+            <option value="Assess" ng-selected="item.newStatus === 'Assess'">Assess</option>
+            <option value="Hold" ng-selected="item.newStatus === 'Hold'">Hold</option>
+          </select>
+        </td>
+        <td>
+          <button class="btn btn-default" ng-if="!item.newStatus" ng-click="item.newStatus = item.status">No</button>
+          <button class="btn btn-success" ng-if="item.newStatus" ng-click="item.newStatus = undefined">Yes</button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="text-center">
+    <button class="btn">Save</button>
+  </div>
+
+</div>
