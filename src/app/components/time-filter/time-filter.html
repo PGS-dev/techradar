@@ -1,16 +1,31 @@
-<details class="row" style="margin-bottom: 20px;">
-  <div class="col-sm-4">
-    <input type="date" ng-model="start" class="form-control">
+<details class="" style="margin-bottom: 20px;">
+  <div class="panel">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <strong>Filter by last update</strong>
+        </div>
+        <div class="col-sm-3">
+          <input type="date" ng-model="start" class="form-control">
+        </div>
+        <div class="col-sm-3">
+          <input type="date" ng-model="end" class="form-control" ng-min="start">
+        </div>
+        <div class="col-sm-3">
+          <select class="form-control"
+                  name="presets"
+                  ng-model="vm.preset"
+                  ng-change="vm.presetChange($event)"
+                  ng-options="option.label for option in vm.presetsOptions track by option.value">
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <button class="btn" ng-show="!isActive" ng-click="isActive = !isActive">Disabled</button>
+          <button class="btn btn-success" ng-show="isActive" ng-click="isActive = !isActive">Enabled</button>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <div class="col-sm-4">
-    <input type="date" ng-model="end" class="form-control" ng-min="start">
-  </div>
-  <div class="col-sm-4">
-    <select class="form-control"
-            name="presets"
-            ng-model="vm.preset"
-            ng-change="vm.presetChange($event)"
-            ng-options="option.label for option in vm.presetsOptions track by option.value">
-    </select>
-  </div>
+
 </details>

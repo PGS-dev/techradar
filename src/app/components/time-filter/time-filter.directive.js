@@ -7,6 +7,7 @@ export function TimeFilterDirective(_) {
     scope: {
       start: '=',
       end: '=',
+      isActive: '='
     },
     link: linkFunction
   };

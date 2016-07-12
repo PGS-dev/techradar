@@ -6,6 +6,7 @@ export class RadarPageController {
     vm.radarId = $stateParams.radarId;
     vm.radarItems = [];
     vm.timeFilterModel = {
+      isActive: false,
       start: moment().startOf('quarter').toDate(),
       end: moment().endOf('day').toDate()
     }
@@ -35,6 +36,10 @@ export class RadarPageController {
     let vm = this,
       items = _.clone(this.items),
       filteredItems = [];
+
+    if (!vm.timeFilterModel.isActive) {
+      return this.radarItems = items;
+    }
 
     _.forEach(items, function (item) {
       let afterStart = false;
