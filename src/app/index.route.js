@@ -32,7 +32,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('radar', {
-      url: '/radar/:radarId',
+      url: '/radar/:radarId/:snapshotId',
       views: {
         header: {
           templateUrl: 'app/components/navbar/navbar.html',
@@ -42,7 +42,13 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         main: {
           templateUrl: 'app/pages/radar/radar.html',
           controller: 'RadarPageController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            snapshots: () => [
+              'Latest',
+              'Initial'
+            ]
+          }
         }
       }
     })
@@ -92,7 +98,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
     }
   })
     .state('admin.snapshot', {
-      url: '/snapshot',
+      url: '/snapshot/:snapshotId',
       views: {
         'main@': {
           templateUrl: 'app/pages/admin/snapshot/admin-snapshot.html',

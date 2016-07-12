@@ -1,8 +1,26 @@
 <section class="container">
   <div class="row">
     <div class="col-sm-12">
-      <time-filter start="vm.timeFilterModel.start" end="vm.timeFilterModel.end" is-active="vm.timeFilterModel.isActive"></time-filter>
+      <div class="well well-sm">
+        <strong>Radar snapshots:</strong>
+        <a ng-repeat="snapshot in vm.snapshots"
+           class="btn btn-link btn-sm"
+           ng-class="{'disabled': snapshot === vm.snapshotId}"
+           ui-sref="radar({radarId: vm.radarId, snapshotId: snapshot})">{{snapshot}}</a>
+        <!--TODO: Check admin persmissions -->
+        <div class="pull-right">
+          <button class="btn btn-sm"
+                  ui-sref="admin.snapshot({radarId: vm.radarId})">New snapshot</button>
+          <button class="btn btn-sm"
+                  ui-sref="admin.snapshot({radarId: vm.radarId, snapshotId: vm.snapshotId})">Edit snapshot</button>
+        </div>
+
+      </div>
+
     </div>
+    <!--<div class="col-sm-12">
+      <time-filter start="vm.timeFilterModel.start" end="vm.timeFilterModel.end" is-active="vm.timeFilterModel.isActive"></time-filter>
+    </div>-->
     <div class="col-sm-12">
       <radar items="vm.radarItems" state-on-click="'technology'" radar-id="vm.radarId"></radar>
     </div>

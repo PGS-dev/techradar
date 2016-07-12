@@ -1,9 +1,18 @@
+import _ from 'lodash';
+
 export class RadarPageController {
-  constructor($scope, Firebase, FirebaseUrl, $stateParams, $firebaseArray, moment) {
+  constructor($scope, FirebaseUrl, $state, $stateParams, moment, snapshots, $http) {
     'ngInject';
     let vm = this;
 
+    // Redirect to first snapshot if not provided
+    if (!$stateParams.snapshotId) {
+      return $state.go('radar', {radarId: $stateParams.radarId, snapshotId: _.first(snapshots)})
+    }
+
     vm.radarId = $stateParams.radarId;
+    vm.snapshotId = $stateParams.snapshotId;
+    vm.snapshots = snapshots;
     vm.radarItems = [];
     vm.timeFilterModel = {
       isActive: false,
@@ -11,16 +20,24 @@ export class RadarPageController {
       end: moment().endOf('day').toDate()
     }
 
-    vm.itemsRef = new Firebase(FirebaseUrl + "radars/" + $stateParams.radarId + "/items");
-    // download the data into a local object
-    vm.fbItems = $firebaseArray(vm.itemsRef);
-    vm.fbItems.$loaded().then(function (items) {
-      vm.itemsUpdated(items)
-    })
+    // Fetch radar items (blips) for specific snapshots
+    this.fetchItems($http, FirebaseUrl, $stateParams)
+      .then((response) => {
+        vm.itemsUpdated(_.chain(response)
+          .result('data')
+          .map((item, key)=>
+            _.assign(item, {id: key})
+          )
+          .value())
+      });
 
     $scope.$watch(() => vm.timeFilterModel, (newValue) => {
       vm.filtersUpdated(newValue);
     }, true);
+  }
+
+  fetchItems($http, FirebaseUrl, $stateParams) {
+    return $http.get(FirebaseUrl + "radars/" + $stateParams.radarId + "/items.json")
   }
 
   itemsUpdated(newItems) {
@@ -50,7 +67,7 @@ export class RadarPageController {
         .filter(function (change) {
           afterStart = vm.timeFilterModel.start ? change.time >= moment(vm.timeFilterModel.start).valueOf() : true;
           beforeEnd = vm.timeFilterModel.end ? change.time <= moment(vm.timeFilterModel.end).valueOf() : true;
-          return  afterStart && beforeEnd;
+          return afterStart && beforeEnd;
         })
         .last()
         .value();
@@ -58,7 +75,7 @@ export class RadarPageController {
       if (!lastMatchedChange) return;
 
       item.status = lastMatchedChange.status;
-      console.info(item.name, item.status, lastMatchedChange.timeString );
+      console.info(item.name, item.status, lastMatchedChange.timeString);
 
       filteredItems.push(item);
     })
