@@ -1,18 +1,18 @@
 <div class="container-fluid">
   <div>
     <label>
-      <input type="text" placeholder="Snapshot name" class="form-control">
+      <input type="text" placeholder="Snapshot name" class="form-control" ng-model="vm.fields.title">
     </label>
   </div>
   <div>
     <label>
-      <input type="text" placeholder="Snapshot description" class="form-control">
+      <input type="text" placeholder="Snapshot description" class="form-control" ng-model="vm.fields.description">
     </label>
   </div>
 
 
   <p class="text-right">
-    <button class="btn btn-primary">+ New technology</button>
+    <button class="btn btn-primary" ng-click="vm.newTechnology()">+ New technology</button>
   </p>
 
 
@@ -25,6 +25,7 @@
         <th>History</th>
         <th>New status</th>
         <th>Visible</th>
+        <th></th>
       </tr>
       <tr style="background: #eee">
         <th>
@@ -43,11 +44,12 @@
         <th>
         </th>
         <th></th>
+        <th></th>
 
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="item in vm.items | filter: {name: vm.searchName, area: vm.searchCategory} | orderBy: 'area'">
+      <tr ng-repeat="item in vm.fields.blips | filter: {name: vm.searchName, area: vm.searchCategory} | orderBy: 'area'">
         <td>{{item.name}}</td>
         <td>
           {{item.area}}
@@ -69,28 +71,45 @@
           <button class="btn btn-success" ng-if="item.newStatus" ng-click="item.newStatus = undefined">Yes</button>
         </td>
       </tr>
-      <tr>
-        <td><input type="text" value="Angular" class="form-control"></td>
+      <tr ng-repeat="item in vm.fields.newBlips">
         <td>
-          <select class="form-control">
+          <input ng-model="item.name"
+                 type="text"
+                 value="Angular"
+                 required
+                 class="form-control">
+        </td>
+        <td>
+          <select ng-model="item.area"
+                  required
+                  class="form-control">
+            <option value="Techniques">Techniques</option>
+            <option value="Platforms">Platforms</option>
+            <option value="Tools">Tools</option>
             <option value="Languages & Frameworks">Languages & Frameworks</option>
           </select>
         </td>
         <td>
-          {{item.status}}
+
         </td>
         <td>
-          <button class="btn btn-link" ng-click="item.newStatus = item.status" ng-if="!item.newStatus">Set</button>
-          <select class="form-control" ng-model="item.newStatus" ng-if="item.newStatus">
-            <option value="Adopt" ng-selected="item.newStatus === 'Adopt'">Adopt</option>
-            <option value="Trial" ng-selected="item.newStatus === 'Trial'">Trial</option>
-            <option value="Assess" ng-selected="item.newStatus === 'Assess'">Assess</option>
-            <option value="Hold" ng-selected="item.newStatus === 'Hold'">Hold</option>
+          <button class="btn btn-link" ng-click="item.status = item.status" ng-if="!item.status">Set</button>
+          <select ng-model="item.status"
+                  class="form-control"
+                  required
+                  ng-if="item.status">
+            <option value="Adopt" ng-selected="item.status === 'Adopt'">Adopt</option>
+            <option value="Trial" ng-selected="item.status === 'Trial'">Trial</option>
+            <option value="Assess" ng-selected="item.status === 'Assess'">Assess</option>
+            <option value="Hold" ng-selected="item.status === 'Hold'">Hold</option>
           </select>
         </td>
         <td>
-          <button class="btn btn-default" ng-if="!item.newStatus" ng-click="item.newStatus = item.status">No</button>
-          <button class="btn btn-success" ng-if="item.newStatus" ng-click="item.newStatus = undefined">Yes</button>
+          <button class="btn btn-default" ng-if="!item.status" ng-click="item.status = item.status">No</button>
+          <button class="btn btn-success" ng-if="item.status" ng-click="item.status = undefined">Yes</button>
+        </td>
+        <td>
+          <button class="btn btn-link" ng-click="vm.cancelNewTechnology($index)">X</button>
         </td>
       </tr>
 
@@ -100,7 +119,11 @@
 
 
   <div class="text-center">
-    <button class="btn">Save</button>
+    <button class="btn" ng-click="vm.onSubmit()">Save</button>
   </div>
 
 </div>
+
+<pre>
+  {{vm.fields | json}}
+</pre>

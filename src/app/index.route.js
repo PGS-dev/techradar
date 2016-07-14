@@ -44,10 +44,18 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
           controller: 'RadarPageController',
           controllerAs: 'vm',
           resolve: {
-            snapshots: () => [
-              'Latest',
-              'Initial'
-            ]
+            snapshots: function(Firebase, FirebaseUrl, $stateParams, $firebaseArray, $q) {
+              let defer = $q.defer();
+              let fbRef = new Firebase(`${FirebaseUrl}snapshots/${$stateParams.radarId}`);
+              let fbQuery = fbRef.orderByChild('created');
+              let fbArray = new $firebaseArray(fbQuery);
+
+              fbArray.$loaded(function(data){
+                defer.resolve(data.reverse());
+              });
+
+              return defer.promise;
+            }
           }
         }
       }
@@ -102,7 +110,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       views: {
         'main@': {
           templateUrl: 'app/pages/admin/snapshot/admin-snapshot.html',
-          controller: 'AdminPageController',
+          controller: 'AdminSnapshotPageController',
           controllerAs: 'vm'
         }
       }

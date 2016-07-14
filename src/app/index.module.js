@@ -7,6 +7,7 @@ import { HomePageController } from './pages/home/home.controller';
 import { CreateRadarPageController } from './pages/create-radar/create-radar.controller';
 import { LoginPageController } from './pages/login/login.controller';
 import { AdminPageController } from './pages/admin/admin.controller';
+import { AdminSnapshotPageController } from './pages/admin/snapshot/admin-snapshot.controller';
 import { RadarPageController } from './pages/radar/radar.controller';
 import { GridPageController } from './pages/grid/grid.controller';
 import { TechnologyPageController } from './pages/technology/technology.controller';
@@ -45,6 +46,7 @@ angular.module('techradar', [
   .controller('HomePageController', HomePageController)
   .controller('CreateRadarPageController', CreateRadarPageController)
   .controller('AdminPageController', AdminPageController)
+  .controller('AdminSnapshotPageController', AdminSnapshotPageController)
   .controller('RadarPageController', RadarPageController)
   .controller('GridPageController', GridPageController)
   .controller('TechnologyPageController', TechnologyPageController)

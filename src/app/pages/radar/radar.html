@@ -5,8 +5,8 @@
         <strong>Radar snapshots:</strong>
         <a ng-repeat="snapshot in vm.snapshots"
            class="btn btn-link btn-sm"
-           ng-class="{'disabled': snapshot === vm.snapshotId}"
-           ui-sref="radar({radarId: vm.radarId, snapshotId: snapshot})">{{snapshot}}</a>
+           ng-class="{'disabled': snapshot.id === vm.snapshotId}"
+           ui-sref="radar({radarId: vm.radarId, snapshotId: snapshot.id})">{{snapshot.title}}</a>
         <!--TODO: Check admin persmissions -->
         <div class="pull-right">
           <button class="btn btn-sm"

@@ -1,13 +1,16 @@
 import _ from 'lodash';
 
 export class RadarPageController {
-  constructor($scope, FirebaseUrl, $state, $stateParams, moment, snapshots, $http) {
+  constructor(FirebaseUrl, $state, $stateParams, moment, snapshots, $http) {
     'ngInject';
     let vm = this;
 
     // Redirect to first snapshot if not provided
     if (!$stateParams.snapshotId) {
-      return $state.go('radar', {radarId: $stateParams.radarId, snapshotId: _.first(snapshots)})
+      return $state.go('radar', {
+        radarId: $stateParams.radarId,
+        snapshotId: _.chain(snapshots).first().result('id').value()
+      })
     }
 
     vm.radarId = $stateParams.radarId;
@@ -24,28 +27,20 @@ export class RadarPageController {
     this.fetchItems($http, FirebaseUrl, $stateParams)
       .then((response) => {
         vm.itemsUpdated(_.chain(response)
-          .result('data')
-          .map((item, key)=>
-            _.assign(item, {id: key})
-          )
+          .result('data.newBlips')
+          // .map((item, key)=>
+          //   _.assign(item, {id: key})
+          // )
           .value())
       });
-
-    $scope.$watch(() => vm.timeFilterModel, (newValue) => {
-      vm.filtersUpdated(newValue);
-    }, true);
   }
 
   fetchItems($http, FirebaseUrl, $stateParams) {
-    return $http.get(FirebaseUrl + "radars/" + $stateParams.radarId + "/items.json")
+    return $http.get(`${FirebaseUrl}snapshots/${$stateParams.radarId}/${$stateParams.snapshotId}.json`)
   }
 
   itemsUpdated(newItems) {
     this.items = newItems;
-    this.filterItems();
-  }
-
-  filtersUpdated(updatedFilter) {
     this.filterItems();
   }
 

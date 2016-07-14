@@ -26,35 +26,32 @@ export class CreateRadarPageController {
   }
 
   onSubmit() {
-    this.addItem(this.form.model);
+    this.saveRadar(this.form.model);
   }
 
   onCancel() {
     this.initForm();
   }
 
-  addItem(newItemModel) {
-    var currentTime = this.moment();
+  saveRadar(radarModel) {
+    let currentTime = this.moment();
+    let fbRef = new this.Firebase(`${this.FirebaseUrl}radars/${radarModel.id}`);
+    let fbObj = new this.$firebaseObject(fbRef);
 
-    this.newItem = this.getItemObject(newItemModel.id)
+    // Prepare model
+    radarModel.items = [];
+    radarModel.author = this.user.uid;
+    radarModel.created = currentTime.valueOf();
+    radarModel.createdString = currentTime.format(this.DATE_FORMAT);
+    fbObj = angular.extend(fbObj, radarModel);
 
-    newItemModel.items = [];
-    newItemModel.author = this.user.uid;
-    newItemModel.created = currentTime.valueOf();
-    newItemModel.createdString = currentTime.format(this.DATE_FORMAT);
-    this.newItem = angular.extend(this.newItem, newItemModel);
-
-    this.newItem.$save()
+    // Save model and go to snapshots view
+    fbObj.$save()
       .then(() =>
-          this.$state.go('radar', {radarId: newItemModel.id})
+          this.$state.go('admin.snapshot', {radarId: radarModel.id})
         ,(error) =>
           console.warn('Error', error)
       )
-  }
-
-  getItemObject(itemId) {
-    this.itemRef = new this.Firebase(this.FirebaseUrl + "radars/" + itemId);
-    return new this.$firebaseObject(this.itemRef);
   }
 
   getFieldsDefinition() {
