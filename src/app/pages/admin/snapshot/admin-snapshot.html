@@ -117,13 +117,18 @@
     </table>
   </div>
 
+  <p class="text-right">
+    <button class="btn btn-primary" ng-click="vm.newTechnology()">+ New technology</button>
+  </p>
+
 
   <div class="text-center">
-    <button class="btn" ng-click="vm.onSubmit()">Save</button>
+    <button class="btn btn-primary" ng-click="vm.onSubmit()" ng-disabled="!vm.fields.title">Save snapshot</button>
   </div>
 
 </div>
 
+<hr>
 <pre>
   {{vm.fields | json}}
 </pre>

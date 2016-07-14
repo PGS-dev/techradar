@@ -21,7 +21,7 @@
     <!--<div class="col-sm-12">
       <time-filter start="vm.timeFilterModel.start" end="vm.timeFilterModel.end" is-active="vm.timeFilterModel.isActive"></time-filter>
     </div>-->
-    <div class="col-sm-12">
+    <div class="col-sm-12" ng-if="vm.snapshots.length">
       <radar items="vm.radarItems" state-on-click="'technology'" radar-id="vm.radarId"></radar>
     </div>
   </div>

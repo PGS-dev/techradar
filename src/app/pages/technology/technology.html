@@ -43,7 +43,7 @@
 
             <!-- Footer -->
             <div class="panel-footer">
-              <small>{{history.timeString}}</small>
+              <small>{{history.date | date}}</small>
             </div>
             <!-- /Footer -->
 
@@ -58,3 +58,9 @@
     </div>
   </div>
 </section>
+
+<details>
+  <pre>
+    {{vm.item | json}}
+  </pre>
+</details>

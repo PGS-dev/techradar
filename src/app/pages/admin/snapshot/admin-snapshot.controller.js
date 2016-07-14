@@ -24,6 +24,22 @@ export class AdminSnapshotPageController {
       blips: [],
       newBlips: []
     }
+
+    this.loadAllTechnologies();
+  }
+
+  loadAllTechnologies() {
+    this.fbTechnologiesArray.$loaded((data)=> {
+
+      this.fields.blips = _.map(data, (item) => {
+        return {
+          id: item.$id,
+          name: item.name,
+          area: item.area,
+          status: item.status
+        }
+      })
+    })
   }
 
   onSubmit() {
@@ -32,7 +48,7 @@ export class AdminSnapshotPageController {
       this.saveSnapshot(this.radarId, this.fields)
     }
 
-    // Edit snapshot
+    // TODO: Edit snapshot
     if (this.snapshotId) {
       // this.RadarService.updateSnapshot(this.radarId, this.snapshotId, this.fields.title, this.fields.description, this.fields.blips)
     }
@@ -50,6 +66,9 @@ export class AdminSnapshotPageController {
     let fbRef = new this.Firebase(`${this.FirebaseUrl}snapshots/${radarId}/${snapshotModel.id}`);
     let fbObj = new this.$firebaseObject(fbRef);
 
+    // Update current technologies
+    this.updateChangedTechnologies(snapshotModel.blips);
+
     // Save new technologies
     this.saveNewTechnologies(snapshotModel.newBlips);
 
@@ -62,15 +81,30 @@ export class AdminSnapshotPageController {
     fbObj.$save()
       .then(() =>
           this.$state.go('radar', {radarId: radarId, snapshotId: snapshotModel.id})
-        ,(error) =>
+        , (error) =>
           console.warn('Error', error)
       )
   }
 
+  updateChangedTechnologies(items) {
+    var vm = this;
+
+    _.forEach(vm.fbTechnologiesArray, function(item, key){
+      if(items[key].newStatus) {
+        item.status = items[key].newStatus;
+        vm.addHistoryEntry(item);
+        vm.fbTechnologiesArray.$save(key)
+      }
+    })
+
+  }
+
   saveNewTechnologies(items) {
     var vm = this;
-    _.forEach(items, function(item){
+    _.forEach(items, function (item) {
       vm.fbTechnologiesArray.$add(item);
+      // Add current state to history
+      vm.addHistoryEntry(item);
     })
   }
 
@@ -84,5 +118,14 @@ export class AdminSnapshotPageController {
 
   cancelNewTechnology(idx) {
     this.fields.newBlips.splice(idx, 1);
+  }
+
+  addHistoryEntry(item) {
+    item.history = item.history || [];
+    item.history.push({
+      action: 'CHANGE_STATUS',
+      date: moment().valueOf(),
+      status: item.status
+    });
   }
 }

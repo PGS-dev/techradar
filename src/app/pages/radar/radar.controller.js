@@ -7,9 +7,18 @@ export class RadarPageController {
 
     // Redirect to first snapshot if not provided
     if (!$stateParams.snapshotId) {
+      let firstSnapshot = _.chain(snapshots).first().result('id').value();
+      if (!firstSnapshot) {
+        // Create snapshot if not found
+        return $state.go('admin.snapshot', {
+          radarId: $stateParams.radarId,
+        })
+      }
+
+      // Go to first available snapshot
       return $state.go('radar', {
         radarId: $stateParams.radarId,
-        snapshotId: _.chain(snapshots).first().result('id').value()
+        snapshotId: firstSnapshot
       })
     }
 
@@ -26,12 +35,13 @@ export class RadarPageController {
     // Fetch radar items (blips) for specific snapshots
     this.fetchItems($http, FirebaseUrl, $stateParams)
       .then((response) => {
-        vm.itemsUpdated(_.chain(response)
-          .result('data.newBlips')
-          // .map((item, key)=>
-          //   _.assign(item, {id: key})
-          // )
-          .value())
+        // Showing chaged and new blips
+        // TODO: Show also blips not changed, but added one snapshot ago
+        let changedOldBlips = _.chain(response).result('data.blips').filter('newStatus').value();
+        let newBlips = _.chain(response).result('data.newBlips').value();
+        let allBlips = _.union(changedOldBlips, newBlips);
+
+        vm.itemsUpdated(allBlips)
       });
   }
 
