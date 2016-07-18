@@ -31,20 +31,23 @@
 
             <!-- Heading -->
             <div class="panel-heading">
-              <h2 class="panel-title">Updated status</h2>
+              <h2 class="panel-title">{{history.status}}</h2>
             </div>
             <!-- /Heading -->
 
             <!-- Body -->
             <div class="panel-body">
-              {{history.status}}
+              <small>{{history.date | date}}</small>
+              <small class="pull-right">
+                <a ui-sref="radar({radarId: vm.radarId, snapshotId: history.snapshotId})">Show snapshot</a>
+              </small>
             </div>
             <!-- /Body -->
 
             <!-- Footer -->
-            <div class="panel-footer">
+            <!--<div class="panel-footer">
               <small>{{history.date | date}}</small>
-            </div>
+            </div>-->
             <!-- /Footer -->
 
           </article>

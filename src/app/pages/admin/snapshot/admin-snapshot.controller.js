@@ -1,7 +1,7 @@
 var moment = require('moment');
 
 export class AdminSnapshotPageController {
-  constructor(AuthService, $state, $stateParams, DATE_FORMAT, Firebase, FirebaseUrl, $firebaseObject, $firebaseArray) {
+  constructor(AuthService, $state, $stateParams, DATE_FORMAT, Firebase, FirebaseUrl, $firebaseObject, $firebaseArray, $q) {
     'ngInject';
 
     if (!AuthService.isAuthenticated()) {
@@ -13,6 +13,8 @@ export class AdminSnapshotPageController {
     this.Firebase = Firebase;
     this.FirebaseUrl = FirebaseUrl;
     this.$state = $state;
+    this.$q = $q;
+    this._ =_;
     this.$firebaseObject = $firebaseObject;
     this.radarId = $stateParams.radarId;
     this.snapshotId = $stateParams.snapshotId;
@@ -59,6 +61,8 @@ export class AdminSnapshotPageController {
   }
 
   saveSnapshot(radarId, snapshotModel) {
+    let savingNewTechnologies;
+    let updatingTechnologies;
     // TODO: Check uniqness
     snapshotModel.id = _.kebabCase(snapshotModel.title);
 
@@ -67,45 +71,85 @@ export class AdminSnapshotPageController {
     let fbObj = new this.$firebaseObject(fbRef);
 
     // Update current technologies
-    this.updateChangedTechnologies(snapshotModel.blips);
+    updatingTechnologies = this.updateChangedTechnologies(snapshotModel.blips, snapshotModel.id);
 
     // Save new technologies
-    this.saveNewTechnologies(snapshotModel.newBlips);
+    savingNewTechnologies = this.saveNewTechnologies(snapshotModel.newBlips, snapshotModel.id);
 
-    // Prepare model
-    snapshotModel.created = currentTime.valueOf();
-    snapshotModel.createdString = currentTime.format(this.DATE_FORMAT);
-    fbObj = angular.extend(fbObj, snapshotModel);
+    this.$q.all([updatingTechnologies, savingNewTechnologies])
+      .then(() => {
+        // Prepare model
+        snapshotModel.created = currentTime.valueOf();
+        snapshotModel.createdString = currentTime.format(this.DATE_FORMAT);
+        debugger
+        fbObj = angular.extend(fbObj, snapshotModel);
 
-    // Save model and go to snapshots view
-    fbObj.$save()
-      .then(() =>
-          this.$state.go('radar', {radarId: radarId, snapshotId: snapshotModel.id})
-        , (error) =>
-          console.warn('Error', error)
-      )
+        // Save model and go to snapshots view
+        fbObj.$save()
+          .then(() =>
+              this.$state.go('radar', {radarId: radarId, snapshotId: snapshotModel.id})
+            , (error) =>
+              console.warn('Error', error)
+          )
+      })
   }
 
-  updateChangedTechnologies(items) {
-    var vm = this;
+  updateChangedTechnologies(items, snapshotId) {
+    var vm = this,
+      allRequests = this.$q.defer(),
+      requests = [],
+      request;
 
-    _.forEach(vm.fbTechnologiesArray, function(item, key){
-      if(items[key].newStatus) {
+    _.forEach(vm.fbTechnologiesArray, function (item, key) {
+      if (items[key].newStatus) {
         item.status = items[key].newStatus;
-        vm.addHistoryEntry(item);
-        vm.fbTechnologiesArray.$save(key)
+        vm.addHistoryEntry(item, snapshotId);
+debugger
+        request = vm.fbTechnologiesArray.$save(key);
+        requests.push(request);
       }
     })
 
+    // Return updated table after all technologies has been added
+    this.$q.all(requests)
+      .then(function () {
+        allRequests.resolve(vm.fbTechnologiesArray);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    return allRequests.promise;
   }
 
-  saveNewTechnologies(items) {
-    var vm = this;
-    _.forEach(items, function (item) {
-      vm.fbTechnologiesArray.$add(item);
+  saveNewTechnologies(items, snapshotId) {
+    var vm = this,
+      allRequests = this.$q.defer(),
+      requests = [],
+      request;
+
+    _.forEach(items, function (item, idx) {
       // Add current state to history
-      vm.addHistoryEntry(item);
+      vm.addHistoryEntry(item, snapshotId);
+      request = vm.fbTechnologiesArray.$add(item);
+      requests.push(request);
+
+      request.then(function (ref) {
+        item.id = ref.key();
+
+      });
     })
+
+    // Return updated table after all technologies has been added
+    this.$q.all(requests)
+      .then(function () {
+        allRequests.resolve(vm.fbTechnologiesArray);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    return allRequests.promise;
   }
 
   newTechnology() {
@@ -120,12 +164,17 @@ export class AdminSnapshotPageController {
     this.fields.newBlips.splice(idx, 1);
   }
 
-  addHistoryEntry(item) {
+  addHistoryEntry(item, snapshotId) {
     item.history = item.history || [];
     item.history.push({
       action: 'CHANGE_STATUS',
       date: moment().valueOf(),
-      status: item.status
+      status: item.status,
+      snapshotId: snapshotId
     });
+  }
+
+  generateId(name) {
+    return _.kebabCase(name);
   }
 }

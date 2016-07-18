@@ -37,10 +37,9 @@ export class RadarPageController {
       .then((response) => {
         // Showing chaged and new blips
         // TODO: Show also blips not changed, but added one snapshot ago
-        let changedOldBlips = _.chain(response).result('data.blips').filter('newStatus').value();
+        let changedOldBlips = _.chain(response).result('data.blips').filter('newStatus').map((item)=>{item.status = item.newStatus; return item}).value();
         let newBlips = _.chain(response).result('data.newBlips').value();
         let allBlips = _.union(changedOldBlips, newBlips);
-
         vm.itemsUpdated(allBlips)
       });
   }
