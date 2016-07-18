@@ -1,6 +1,7 @@
 <section class="container">
   <div class="row">
     <div class="col-sm-12">
+      <div ng-if="vm.isAdmin && !vm.adminFormVisible" ng-click="vm.initForm()" class="btn btn-default pull-right">Edit</div>
       <h1>{{vm.item.name}}</h1>
       <h3 ng-show="vm.item.area" class="text-muted">{{vm.item.area}}</h3>
 
@@ -58,6 +59,19 @@
     </div>
   </div>
 </section>
+
+<section class="container" ng-show="vm.adminFormVisible">
+  <hr>
+  <div class="panel panel-default" >
+    <div class="panel-body">
+      <formly-form model="vm.adminForm.model" fields="vm.adminForm.fields">
+        <button type="submit" class="btn btn-primary" ng-click="vm.onSubmit()">Save</button>
+        <button type="reset" class="btn btn-primary" ng-click="vm.onCancel()">Cancel</button>
+      </formly-form>
+    </div>
+  </div>
+</section>
+
 
 <!--<details>
   <pre>

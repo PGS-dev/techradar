@@ -89,7 +89,12 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         main: {
           templateUrl: 'app/pages/technology/technology.html',
           controller: 'TechnologyPageController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            radarData: function (FirebaseUrl, $stateParams, $http) {
+              return $http.get(`${FirebaseUrl}radars/${$stateParams.radarId}.json`).then((response)=>response.data);
+            }
+          }
         }
       }
     })

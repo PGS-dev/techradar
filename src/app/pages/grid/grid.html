@@ -1,16 +1,5 @@
 <section class="container">
   <div class="row">
-    <div class="col-sm-12">
-      <div ng-class="{'input-group':vm.search}" style="width: 200px;">
-        <input type="text" class="form-control" placeholder="Filter" ng-model="vm.search" />
-        <span class="input-group-btn" ng-show="vm.search">
-          <button class="btn btn-info" type="button" ng-click="vm.search = ''">
-            X
-          </button>
-        </span>
-      </div>
-    </div>
-
     <div class="col-sm-12" style="margin-top: 20px;">
       <div class="panel panel-default">
         <div class="table-responsive">
@@ -22,9 +11,33 @@
                 <th>Status</th>
                 <th>Last Change</th>
               </tr>
+            <tr>
+              <th>
+                <input type="text" class="form-control input-sm" placeholder="Filter..." ng-model="vm.searchName">
+              </th>
+              <th>
+                <select class="form-control input-sm" ng-model="vm.searchCategory">
+                  <option value="">Filter...</option>
+                  <option value="Languages & Frameworks">Languages & Frameworks</option>
+                  <option value="Tools">Tools</option>
+                  <option value="Techniques">Techniques</option>
+                  <option value="Platforms">Platforms</option>
+                </select>
+              </th>
+              <th>
+                <select class="form-control input-sm" ng-model="vm.searchStatus">
+                  <option value="">Filter...</option>
+                  <option value="Adopt">Adopt</option>
+                  <option value="Trial">Trial</option>
+                  <option value="Assess">Assess</option>
+                  <option value="Hold">Hold</option>
+                </select>
+              </th>
+              <th></th>
+            </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in vm.items | filter: vm.search">
+            <tr ng-repeat="item in vm.items | filter: {name: vm.searchName, area: vm.searchCategory, status: vm.searchStatus} | orderBy: 'area'">
               <td>
                 <a ui-sref="technology({radarId: vm.radarId, techName: item.name, techId: item.id})">{{::item.name}}</a>
               </td>
