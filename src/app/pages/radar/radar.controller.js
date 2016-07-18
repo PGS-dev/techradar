@@ -6,7 +6,7 @@ export class RadarPageController {
     let vm = this;
 
     // Check permission to create radar
-    vm.isAdmin = AuthService.currentUser.uid === radarData.author;
+    vm.isAdmin = _.result(AuthService,'currentUser.uid') === radarData.author;
 
     // Redirect to first snapshot if not provided
     if (!$stateParams.snapshotId) {

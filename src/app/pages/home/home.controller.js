@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export class HomePageController {
   constructor(Firebase, FirebaseUrl, $firebaseArray, AuthService) {
     'ngInject';
@@ -7,7 +9,8 @@ export class HomePageController {
 
     this.AuthService = AuthService;
 
-    vm.showPrivate = AuthService.currentUser.uid === "4bc0f5c0-1457-4b35-ad63-780c14636610";
+    // Very impressive security
+    vm.showPrivate = _.result(AuthService,'currentUser.uid') === "4bc0f5c0-1457-4b35-ad63-780c14636610";
 
     // download the data into a local object
     vm.radars = $firebaseArray(itemsRef);

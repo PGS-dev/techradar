@@ -5,7 +5,7 @@ export class TechnologyPageController {
     'ngInject';
 
     // Check permission to create radar
-    this.isAdmin = AuthService.currentUser.uid === radarData.author;
+    this.isAdmin = _.result(AuthService,'currentUser.uid') === radarData.author;
 
     this.itemRef = new Firebase(FirebaseUrl + "technologies/" + $stateParams.radarId + "/" + $stateParams.techId);
     this.snapshotsRef = new Firebase(FirebaseUrl + "snapshots/" + $stateParams.radarId);
