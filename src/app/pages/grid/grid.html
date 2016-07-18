@@ -2,7 +2,35 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div id="grid1" ui-grid="vm.gridOptions" class="grid" ng-if="vm.gridOptions"></div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Area</th>
+                <th>Status</th>
+                <th>Last Change</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.items">
+              <td>
+                <a ui-sref="technology({radarId: vm.radarId, techName: item.name, techId: item.id})">{{::item.name}}</a>
+              </td>
+              <td>
+                {{::item.area}}
+              </td>
+              <td>
+                {{::item.status}}
+              </td>
+              <td>
+                {{::item.lastChange}} <a ui-sref="radar({radarId: vm.radarId, snapshotId: item.snapshotId})">in {{::item.snapshotId}}</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   </div>

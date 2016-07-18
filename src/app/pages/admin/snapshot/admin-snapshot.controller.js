@@ -81,7 +81,6 @@ export class AdminSnapshotPageController {
         // Prepare model
         snapshotModel.created = currentTime.valueOf();
         snapshotModel.createdString = currentTime.format(this.DATE_FORMAT);
-        debugger
         fbObj = angular.extend(fbObj, snapshotModel);
 
         // Save model and go to snapshots view
@@ -104,7 +103,6 @@ export class AdminSnapshotPageController {
       if (items[key].newStatus) {
         item.status = items[key].newStatus;
         vm.addHistoryEntry(item, snapshotId);
-debugger
         request = vm.fbTechnologiesArray.$save(key);
         requests.push(request);
       }

@@ -55,6 +55,9 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
               });
 
               return defer.promise;
+            },
+            radarData: function (FirebaseUrl, $stateParams, $http) {
+              return $http.get(`${FirebaseUrl}radars/${$stateParams.radarId}.json`).then((response)=>response.data);
             }
           }
         }

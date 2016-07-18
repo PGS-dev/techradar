@@ -1,9 +1,12 @@
 import _ from 'lodash';
 
 export class RadarPageController {
-  constructor(FirebaseUrl, $state, $stateParams, moment, snapshots, $http) {
+  constructor(FirebaseUrl, $state, $stateParams, moment, radarData, snapshots, $http, AuthService) {
     'ngInject';
     let vm = this;
+
+    // Check permission to create radar
+    vm.isAdmin = AuthService.currentUser.uid === radarData.author;
 
     // Redirect to first snapshot if not provided
     if (!$stateParams.snapshotId) {

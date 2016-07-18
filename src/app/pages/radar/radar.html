@@ -10,6 +10,7 @@
         <!--TODO: Check admin persmissions -->
         <div class="pull-right">
           <button class="btn btn-sm"
+                  ng-if="vm.isAdmin"
                   ui-sref="admin.snapshot({radarId: vm.radarId})">New snapshot</button>
           <!--<button class="btn btn-sm"
                   ui-sref="admin.snapshot({radarId: vm.radarId, snapshotId: vm.snapshotId})">Edit snapshot</button>-->
