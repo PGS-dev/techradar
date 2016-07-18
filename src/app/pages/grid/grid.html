@@ -1,6 +1,17 @@
 <section class="container">
   <div class="row">
     <div class="col-sm-12">
+      <div ng-class="{'input-group':vm.search}" style="width: 200px;">
+        <input type="text" class="form-control" placeholder="Filter" ng-model="vm.search" />
+        <span class="input-group-btn" ng-show="vm.search">
+          <button class="btn btn-info" type="button" ng-click="vm.search = ''">
+            X
+          </button>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 20px;">
       <div class="panel panel-default">
         <div class="table-responsive">
           <table class="table table-striped">
@@ -13,7 +24,7 @@
               </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in vm.items">
+            <tr ng-repeat="item in vm.items | filter: vm.search">
               <td>
                 <a ui-sref="technology({radarId: vm.radarId, techName: item.name, techId: item.id})">{{::item.name}}</a>
               </td>
