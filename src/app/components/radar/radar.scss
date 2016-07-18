@@ -41,6 +41,11 @@ $colorQ2: #8D2145;
       height: 800px;
       width: 800px;
     }
+
+    @media (min-width: 1300px) {
+      height: 1000px;
+      width: 1000px;
+    }
   }
 
   &-axisX {
@@ -209,7 +214,7 @@ $colorQ2: #8D2145;
   &-area {
     position: absolute;
     font-size: 12px;
-    width: 150px;
+    width: 200px;
     padding: 5px;
 
     /* Tools */
