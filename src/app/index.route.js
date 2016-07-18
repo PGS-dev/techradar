@@ -1,4 +1,4 @@
-export function routerConfig ($stateProvider, $urlRouterProvider) {
+export function routerConfig($stateProvider, $urlRouterProvider) {
   'ngInject';
   $stateProvider
     .state('home', {
@@ -44,13 +44,13 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
           controller: 'RadarPageController',
           controllerAs: 'vm',
           resolve: {
-            snapshots: function(Firebase, FirebaseUrl, $stateParams, $firebaseArray, $q) {
+            snapshots: function (Firebase, FirebaseUrl, $stateParams, $firebaseArray, $q) {
               let defer = $q.defer();
               let fbRef = new Firebase(`${FirebaseUrl}snapshots/${$stateParams.radarId}`);
               let fbQuery = fbRef.orderByChild('created');
               let fbArray = new $firebaseArray(fbQuery);
 
-              fbArray.$loaded(function(data){
+              fbArray.$loaded(function (data) {
                 defer.resolve(data.reverse());
               });
 
@@ -94,20 +94,16 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('admin', {
-    url: '/admin/:radarId',
-    views: {
-      header: {
-        templateUrl: 'app/components/navbar/navbar.html',
-        controller: 'NavbarController',
-        controllerAs: 'navbar'
-      },
-      main: {
-        templateUrl: 'app/pages/admin/admin.html',
-        controller: 'AdminPageController',
-        controllerAs: 'vm'
+      url: '/admin/:radarId',
+      abstract: true,
+      views: {
+        header: {
+          templateUrl: 'app/components/navbar/navbar.html',
+          controller: 'NavbarController',
+          controllerAs: 'navbar'
+        }
       }
-    }
-  })
+    })
     .state('admin.snapshot', {
       url: '/snapshot/:snapshotId',
       views: {
