@@ -1,8 +1,11 @@
 var moment = require('moment');
 
 export class AdminSnapshotPageController {
-  constructor(AuthService, $state, $stateParams, DATE_FORMAT, Firebase, FirebaseUrl, $firebaseObject, $firebaseArray, $q) {
+  constructor(AuthService, $state, $stateParams, DATE_FORMAT, Firebase, FirebaseUrl, $firebaseObject, $firebaseArray, $q, radarData) {
     'ngInject';
+
+    // Check permission to create radar
+    this.isAdmin = AuthService.currentUser.uid === radarData.author;
 
     if (!AuthService.isAuthenticated()) {
       $state.go('login');

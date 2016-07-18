@@ -114,7 +114,12 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         'main@': {
           templateUrl: 'app/pages/admin/snapshot/admin-snapshot.html',
           controller: 'AdminSnapshotPageController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            radarData: function (FirebaseUrl, $stateParams, $http) {
+              return $http.get(`${FirebaseUrl}radars/${$stateParams.radarId}.json`).then((response)=>response.data);
+            }
+          }
         }
       }
     })

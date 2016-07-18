@@ -2,7 +2,7 @@ export class AdminPageController {
   constructor(Firebase, FirebaseUrl, $firebaseArray, AuthService, $state, $stateParams, moment, _, DATE_FORMAT) {
     'ngInject';
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isAuthenticated() || !vm.isAdmin) {
       $state.go('login');
       return false;
     }

@@ -1,132 +1,139 @@
-<div class="container-fluid">
-  <div>
-    <label>
-      <input type="text" placeholder="Snapshot name" class="form-control" ng-model="vm.fields.title">
-    </label>
+<div class="container-fluid" >
+
+  <section ng-if="!vm.isAdmin" class="alert alert-danger text-center" >Only author of the radar can create snapshots</section>
+
+  <section ng-if="vm.isAdmin">
+    <div>
+      <label>
+        <input type="text" placeholder="Snapshot name" class="form-control" ng-model="vm.fields.title">
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="text" placeholder="Snapshot description" class="form-control" ng-model="vm.fields.description">
+      </label>
+    </div>
+
+
+    <p class="text-right">
+      <button class="btn btn-primary" ng-click="vm.newTechnology()">+ New technology</button>
+    </p>
+
+
+    <div class="table-responsive">
+      <table class="table table-condensed table-hover">
+        <thead>
+        <tr style="background: #eee;">
+          <th>Name</th>
+          <th>Category</th>
+          <th>History</th>
+          <th>New status</th>
+          <th>Visible</th>
+          <th></th>
+        </tr>
+        <tr style="background: #eee">
+          <th>
+            <input type="text" class="form-control input-sm" placeholder="Filter..." ng-model="vm.searchName">
+          </th>
+          <th>
+            <select class="form-control input-sm" ng-model="vm.searchCategory">
+              <option value="">Filter...</option>
+              <option value="Languages & Frameworks">Languages & Frameworks</option>
+              <option value="Tools">Tools</option>
+              <option value="Techniques">Techniques</option>
+              <option value="Platforms">Platforms</option>
+            </select>
+          </th>
+          <th></th>
+          <th>
+          </th>
+          <th></th>
+          <th></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in vm.fields.blips | filter: {name: vm.searchName, area: vm.searchCategory} | orderBy: 'area'">
+          <td>{{item.name}}</td>
+          <td>
+            {{item.area}}
+          </td>
+          <td>
+            {{item.status}}
+          </td>
+          <td>
+            <button class="btn btn-link" ng-click="item.newStatus = item.status" ng-if="!item.newStatus">Set</button>
+            <select class="form-control" ng-model="item.newStatus" ng-if="item.newStatus">
+              <option value="Adopt" ng-selected="item.newStatus === 'Adopt'">Adopt</option>
+              <option value="Trial" ng-selected="item.newStatus === 'Trial'">Trial</option>
+              <option value="Assess" ng-selected="item.newStatus === 'Assess'">Assess</option>
+              <option value="Hold" ng-selected="item.newStatus === 'Hold'">Hold</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-default" ng-if="!item.newStatus" ng-click="item.newStatus = item.status">No</button>
+            <button class="btn btn-success" ng-if="item.newStatus" ng-click="item.newStatus = undefined">Yes</button>
+          </td>
+        </tr>
+        <tr ng-repeat="item in vm.fields.newBlips">
+          <td>
+            <input ng-model="item.name"
+                   type="text"
+                   value="Angular"
+                   required
+                   class="form-control">
+          </td>
+          <td>
+            <select ng-model="item.area"
+                    required
+                    class="form-control">
+              <option value="Techniques">Techniques</option>
+              <option value="Platforms">Platforms</option>
+              <option value="Tools">Tools</option>
+              <option value="Languages & Frameworks">Languages & Frameworks</option>
+            </select>
+          </td>
+          <td>
+
+          </td>
+          <td>
+            <button class="btn btn-link" ng-click="item.status = item.status" ng-if="!item.status">Set</button>
+            <select ng-model="item.status"
+                    class="form-control"
+                    required
+                    ng-if="item.status">
+              <option value="Adopt" ng-selected="item.status === 'Adopt'">Adopt</option>
+              <option value="Trial" ng-selected="item.status === 'Trial'">Trial</option>
+              <option value="Assess" ng-selected="item.status === 'Assess'">Assess</option>
+              <option value="Hold" ng-selected="item.status === 'Hold'">Hold</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-default" ng-if="!item.status" ng-click="item.status = item.status">No</button>
+            <button class="btn btn-success" ng-if="item.status" ng-click="item.status = undefined">Yes</button>
+          </td>
+          <td>
+            <button class="btn btn-link" ng-click="vm.cancelNewTechnology($index)">X</button>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <p class="text-right">
+      <button class="btn btn-primary" ng-click="vm.newTechnology()">+ New technology</button>
+    </p>
+
+
+    <div class="text-center">
+      <button class="btn btn-primary" ng-click="vm.onSubmit()" ng-disabled="!vm.fields.title">Save snapshot</button>
+    </div>
+
+  </section>
   </div>
-  <div>
-    <label>
-      <input type="text" placeholder="Snapshot description" class="form-control" ng-model="vm.fields.description">
-    </label>
-  </div>
 
 
-  <p class="text-right">
-    <button class="btn btn-primary" ng-click="vm.newTechnology()">+ New technology</button>
-  </p>
-
-
-  <div class="table-responsive">
-    <table class="table table-condensed table-hover">
-      <thead>
-      <tr style="background: #eee;">
-        <th>Name</th>
-        <th>Category</th>
-        <th>History</th>
-        <th>New status</th>
-        <th>Visible</th>
-        <th></th>
-      </tr>
-      <tr style="background: #eee">
-        <th>
-          <input type="text" class="form-control input-sm" placeholder="Filter..." ng-model="vm.searchName">
-        </th>
-        <th>
-          <select class="form-control input-sm" ng-model="vm.searchCategory">
-            <option value="">Filter...</option>
-            <option value="Languages & Frameworks">Languages & Frameworks</option>
-            <option value="Tools">Tools</option>
-            <option value="Techniques">Techniques</option>
-            <option value="Platforms">Platforms</option>
-          </select>
-        </th>
-        <th></th>
-        <th>
-        </th>
-        <th></th>
-        <th></th>
-
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="item in vm.fields.blips | filter: {name: vm.searchName, area: vm.searchCategory} | orderBy: 'area'">
-        <td>{{item.name}}</td>
-        <td>
-          {{item.area}}
-        </td>
-        <td>
-          {{item.status}}
-        </td>
-        <td>
-          <button class="btn btn-link" ng-click="item.newStatus = item.status" ng-if="!item.newStatus">Set</button>
-          <select class="form-control" ng-model="item.newStatus" ng-if="item.newStatus">
-            <option value="Adopt" ng-selected="item.newStatus === 'Adopt'">Adopt</option>
-            <option value="Trial" ng-selected="item.newStatus === 'Trial'">Trial</option>
-            <option value="Assess" ng-selected="item.newStatus === 'Assess'">Assess</option>
-            <option value="Hold" ng-selected="item.newStatus === 'Hold'">Hold</option>
-          </select>
-        </td>
-        <td>
-          <button class="btn btn-default" ng-if="!item.newStatus" ng-click="item.newStatus = item.status">No</button>
-          <button class="btn btn-success" ng-if="item.newStatus" ng-click="item.newStatus = undefined">Yes</button>
-        </td>
-      </tr>
-      <tr ng-repeat="item in vm.fields.newBlips">
-        <td>
-          <input ng-model="item.name"
-                 type="text"
-                 value="Angular"
-                 required
-                 class="form-control">
-        </td>
-        <td>
-          <select ng-model="item.area"
-                  required
-                  class="form-control">
-            <option value="Techniques">Techniques</option>
-            <option value="Platforms">Platforms</option>
-            <option value="Tools">Tools</option>
-            <option value="Languages & Frameworks">Languages & Frameworks</option>
-          </select>
-        </td>
-        <td>
-
-        </td>
-        <td>
-          <button class="btn btn-link" ng-click="item.status = item.status" ng-if="!item.status">Set</button>
-          <select ng-model="item.status"
-                  class="form-control"
-                  required
-                  ng-if="item.status">
-            <option value="Adopt" ng-selected="item.status === 'Adopt'">Adopt</option>
-            <option value="Trial" ng-selected="item.status === 'Trial'">Trial</option>
-            <option value="Assess" ng-selected="item.status === 'Assess'">Assess</option>
-            <option value="Hold" ng-selected="item.status === 'Hold'">Hold</option>
-          </select>
-        </td>
-        <td>
-          <button class="btn btn-default" ng-if="!item.status" ng-click="item.status = item.status">No</button>
-          <button class="btn btn-success" ng-if="item.status" ng-click="item.status = undefined">Yes</button>
-        </td>
-        <td>
-          <button class="btn btn-link" ng-click="vm.cancelNewTechnology($index)">X</button>
-        </td>
-      </tr>
-
-      </tbody>
-    </table>
-  </div>
-
-  <p class="text-right">
-    <button class="btn btn-primary" ng-click="vm.newTechnology()">+ New technology</button>
-  </p>
-
-
-  <div class="text-center">
-    <button class="btn btn-primary" ng-click="vm.onSubmit()" ng-disabled="!vm.fields.title">Save snapshot</button>
-  </div>
-
-</div>
 
 <hr>
 <!--<pre>
