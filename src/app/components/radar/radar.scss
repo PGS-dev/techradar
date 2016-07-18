@@ -1,7 +1,16 @@
 $orange: #ff7626;
 $axisColor: #ddd;
+$colorQ1: #83AD78;
+$colorQ4: #3DB5BE;
+$colorQ3: #E88744;
+$colorQ2: #8D2145;
 
 .Radar {
+  $bgAdopt: #BFC0BF;
+  $bgTrial: #CBCCCB;
+  $bgAssess: #D7D8D6;
+  $bgHold: #E4E5E4;
+
   position: relative;
 
   &-search {
@@ -55,7 +64,7 @@ $axisColor: #ddd;
   &-circle {
     position: absolute;
     background: transparent;
-    border: solid 1px #ccc;
+    //border: solid 1px #ccc;
     border-radius: 50%;
     text-align: center;
 
@@ -64,6 +73,7 @@ $axisColor: #ddd;
       left: 0;
       bottom: 0;
       right: 0;
+      background: $bgHold;
     }
 
     &--assess {
@@ -71,6 +81,7 @@ $axisColor: #ddd;
       left: 12.5%;
       bottom: 12.5%;
       right: 12.5%;
+      background: $bgAssess;
     }
 
     &--trial {
@@ -78,6 +89,7 @@ $axisColor: #ddd;
       left: 25%;
       bottom: 25%;
       right: 25%;
+      background: $bgTrial;
     }
 
     &--adopt {
@@ -85,11 +97,14 @@ $axisColor: #ddd;
       left: 37.5%;
       bottom: 37.5%;
       right: 37.5%;
+      background: $bgAdopt;
     }
   }
 
   &-circleLabel {
     font-size: 12px;
+    position: relative;
+    z-index: 1;
   }
 
   &-items {
@@ -111,18 +126,45 @@ $axisColor: #ddd;
     font-size: $radarItemWidth*0.5;
     line-height: 150%;
 
-    &-icon {
+    &--Tools {
+      .Radar-item-icon {
+        border-color: $colorQ1;
+        background-color: $colorQ1;
+      }
+    }
+
+    &--Languages {
+      .Radar-item-icon {
+        border-color: $colorQ2;
+        background-color: $colorQ2;
+      }
+    }
+
+    &--Platforms {
+      .Radar-item-icon {
+        border-color: $colorQ3;
+        background-color: $colorQ3;
+      }
+    }
+
+    &--Techniques {
+      .Radar-item-icon {
+        border-color: $colorQ4;
+        background-color: $colorQ4;
+      }
+    }
+
+    .Radar-item-icon {
       display: block;
       text-align: center;
       cursor: pointer;
-      background: $orange;
       border-radius: 50%;
-      border: solid 1px $orange;
+      border: solid 1px transparent;
       color: white;
 
       &:hover {
         background: white;
-        color: $orange;
+        color: $gray;
         text-decoration: none;
 
         & + DIV {
@@ -166,34 +208,47 @@ $axisColor: #ddd;
 
   &-area {
     position: absolute;
-    font-size: 10px;
+    font-size: 12px;
     width: 150px;
     padding: 5px;
 
     /* Tools */
-    &:nth-child(1) {
+    &--Tools{
       top: 0;
       right: 0;
       text-align: right;
+
+      .RadarLabels-label {
+        color: $colorQ1;
+      }
     }
 
     /* Techniques */
-    &:nth-child(2) {
+    &--Techniques {
       top: 0;
       left: 0;
+      .RadarLabels-label {
+        color: $colorQ4;
+      }
     }
 
     /* Platforms */
-    &:nth-child(3) {
+    &--Platforms {
       top: 50%;
       left: 0;
+      .RadarLabels-label {
+        color: $colorQ3;
+      }
     }
 
     /* Languages & Frameworks */
-    &:nth-child(4) {
+    &--Languages {
       top: 50%;
       right: 0;
       text-align: right;
+      .RadarLabels-label {
+        color: $colorQ2;
+      }
     }
   }
 

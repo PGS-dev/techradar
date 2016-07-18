@@ -11,26 +11,27 @@
   </div>
 
   <div class="Radar-canvas">
-    <div class="Radar-axisX"></div>
-    <div class="Radar-axisY"></div>
 
     <div class="Radar-circles">
       <div class="Radar-circle Radar-circle--hold">
         <div class="Radar-circleLabel">Hold</div>
       </div>
-      <div class="Radar-circle Radar-circle--trial">
-        <div class="Radar-circleLabel">Trial</div>
-      </div>
       <div class="Radar-circle Radar-circle--assess">
         <div class="Radar-circleLabel">Assess</div>
+      </div>
+      <div class="Radar-circle Radar-circle--trial">
+        <div class="Radar-circleLabel">Trial</div>
       </div>
       <div class="Radar-circle Radar-circle--adopt">
         <div class="Radar-circleLabel">Adopt</div>
       </div>
     </div>
 
+    <div class="Radar-axisX"></div>
+    <div class="Radar-axisY"></div>
+
     <div class="Radar-items">
-      <div class="Radar-item"
+      <div class="Radar-item Radar-item--{{::item.area}}"
            ng-repeat="item in vm.viewItems | filter: {name: vm.search}"
            ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
         <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}"
@@ -40,7 +41,7 @@
   </div>
 
   <div class="RadarLabels">
-    <div class="RadarLabels-area" ng-repeat="area in ['Tools', 'Techniques', 'Platforms', 'Languages & Frameworks']">
+    <div class="RadarLabels-area RadarLabels-area--{{::area}}" ng-repeat="area in ['Tools', 'Techniques', 'Platforms', 'Languages & Frameworks']">
       <h3 class="RadarLabels-areaHeader">{{::area}}</h3>
       <div class="RadarLabels-statuses">
         <div class="RadarLabels-status" ng-repeat="status in ['Adopt', 'Trial', 'Assess', 'Hold']">
