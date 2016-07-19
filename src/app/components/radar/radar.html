@@ -32,6 +32,10 @@
 
     <div class="Radar-items">
       <div class="Radar-item Radar-item--{{::item.area}}"
+           id="Radar-item-{{::item.id}}"
+           ng-class="{'is-active': item.active}"
+           ng-mouseenter="item.active = true"
+           ng-mouseleave="item.active = undefined"
            ng-repeat="item in vm.viewItems | filter: {name: vm.search}"
            ng-style="{top: -item.position.y + '%', left: item.position.x + '%'}">
         <a class="Radar-item-icon u-tooltip" data-title="{{::item.name}}"
@@ -48,9 +52,14 @@
           <h4 class="RadarLabels-statusHeader">{{::status}}</h4>
           <ul class="RadarLabels-items">
             <li class="RadarLabels-item"
+                ng-class="{'is-active': item.active}"
+                id="RadarLabels-item-{{::item.id}}"
                 ng-repeat="item in vm.viewItems | filter: { area: area, status: status, name: vm.search }">
               <span class="RadarLabels-icon">{{::item.idx}}</span>
-              <a class="RadarLabels-label" ui-sref="{{::stateOnClick}}({radarId: radarId, techName: item.name, techId: item.id})">{{::item.name}}</a>
+              <a class="RadarLabels-label"
+                 ng-mouseenter="item.active = true"
+                 ng-mouseleave="item.active = undefined"
+                 ui-sref="{{::stateOnClick}}({radarId: radarId, techName: item.name, techId: item.id})">{{::item.name}}</a>
             </li>
           </ul>
         </div>
