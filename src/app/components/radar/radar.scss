@@ -236,7 +236,7 @@ $colorQ2: #8D2145;
 
     /* Tools */
     &--Tools{
-      top: 0;
+      top: -15px;
       right: 0;
       text-align: right;
 
@@ -247,7 +247,7 @@ $colorQ2: #8D2145;
 
     /* Techniques */
     &--Techniques {
-      top: 0;
+      top: -15px;
       left: 0;
       .RadarLabels-label {
         color: $colorQ4;
