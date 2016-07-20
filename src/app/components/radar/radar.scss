@@ -167,6 +167,12 @@ $colorQ2: #8D2145;
       transform: scale(2);
     }
 
+    &.is-changed {
+      .Radar-item-icon {
+        border-radius: 0;
+      }
+    }
+
     .Radar-item-icon {
       display: block;
       text-align: center;
@@ -225,6 +231,8 @@ $colorQ2: #8D2145;
     font-size: 12px;
     width: 200px;
     padding: 5px;
+    max-height: 50%;
+    overflow: auto;
 
     /* Tools */
     &--Tools{
@@ -289,6 +297,10 @@ $colorQ2: #8D2145;
   &-items {
     padding: 0;
     list-style: none;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &-item {
@@ -304,4 +316,9 @@ $colorQ2: #8D2145;
     opacity: 0.5;
     padding: 0.3em;
   }
+}
+
+.RadarLegend {
+  text-align: center;
+  font-size: 11px;
 }

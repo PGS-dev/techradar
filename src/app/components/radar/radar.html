@@ -1,8 +1,8 @@
 <div class="Radar">
   <div class="Radar-search">
     <div ng-class="{'input-group':vm.search}">
-      <input type="text" class="form-control" placeholder="Filter" ng-model="vm.search" />
-        <span class="input-group-btn" ng-show="vm.search">
+      <input type="text" class="form-control" placeholder="Filter" ng-model="vm.search"/>
+      <span class="input-group-btn" ng-show="vm.search">
           <button class="btn btn-info" type="button" ng-click="vm.search = ''">
             X
           </button>
@@ -33,7 +33,7 @@
     <div class="Radar-items">
       <div class="Radar-item Radar-item--{{::item.area}}"
            id="Radar-item-{{::item.id}}"
-           ng-class="{'is-active': item.active}"
+           ng-class="{'is-active': item.active, 'is-changed': item.isChanged}"
            ng-mouseenter="item.active = true"
            ng-mouseleave="item.active = undefined"
            ng-repeat="item in vm.viewItems | filter: {name: vm.search}"
@@ -45,7 +45,8 @@
   </div>
 
   <div class="RadarLabels">
-    <div class="RadarLabels-area RadarLabels-area--{{::area}}" ng-repeat="area in ['Tools', 'Techniques', 'Platforms', 'Languages & Frameworks']">
+    <div class="RadarLabels-area RadarLabels-area--{{::area}}"
+         ng-repeat="area in ['Tools', 'Techniques', 'Platforms', 'Languages & Frameworks']">
       <h3 class="RadarLabels-areaHeader">{{::area}}</h3>
       <div class="RadarLabels-statuses">
         <div class="RadarLabels-status" ng-repeat="status in ['Adopt', 'Trial', 'Assess', 'Hold']">
@@ -59,13 +60,30 @@
               <a class="RadarLabels-label"
                  ng-mouseenter="item.active = true"
                  ng-mouseleave="item.active = undefined"
-                 ui-sref="{{::stateOnClick}}({radarId: radarId, techName: item.name, techId: item.id})">{{::item.name}}</a>
+                 ui-sref="{{::stateOnClick}}({radarId: radarId, techName: item.name, techId: item.id})">
+                {{::item.name}}
+
+              </a>
+              <small ng-if="::item.isNew" class="label label-success">N</small>
+              <small ng-if="::item.isChanged" class="label label-info">CH</small>
             </li>
           </ul>
         </div>
       </div>
     </div>
   </div>
+
+  <section class="RadarLegend hidden-xs">
+    <div class="RadarLegend-item">
+      <small class="label label-success">N</small>
+      - New item, added in this snapshot.
+    </div>
+    <div>
+      <small class="label label-info">CH</small>
+      - Changed item, added in the past.
+    </div>
+  </section>
+
 
   <div class="Radar-loader" ng-if="vm.loader">
     <div class="u-loader"></div>

@@ -1,12 +1,14 @@
 import _ from 'lodash';
 
 export class RadarPageController {
-  constructor(FirebaseUrl, $state, $stateParams, moment, radarData, snapshots, $http, AuthService) {
+  constructor(FirebaseUrl, $state, $stateParams, moment, radarData, snapshots, $http, AuthService, $q) {
     'ngInject';
     let vm = this;
 
+    this.$q = $q;
+
     // Check permission to create radar
-    vm.isAdmin = _.result(AuthService,'currentUser.uid') === radarData.author;
+    vm.isAdmin = _.result(AuthService, 'currentUser.uid') === radarData.author;
 
     // Redirect to first snapshot if not provided
     if (!$stateParams.snapshotId) {
@@ -36,19 +38,49 @@ export class RadarPageController {
     }
 
     // Fetch radar items (blips) for specific snapshots
-    this.fetchItems($http, FirebaseUrl, $stateParams)
-      .then((response) => {
+    this.fetchItems($http, FirebaseUrl, $stateParams.radarId, $stateParams.snapshotId)
+      .then((items) => {
         // Showing chaged and new blips
-        // TODO: Show also blips not changed, but added one snapshot ago
-        let changedOldBlips = _.chain(response).result('data.blips').filter('newStatus').map((item)=>{item.status = item.newStatus; return item}).value();
-        let newBlips = _.chain(response).result('data.newBlips').value();
-        let allBlips = _.union(changedOldBlips, newBlips);
-        vm.itemsUpdated(allBlips)
+        /*        // TODO: Show also blips not changed, but added one snapshot ago
+         let changedOldBlips = _.chain(response).result('data.blips').filter('newStatus').map((item)=> {
+         item.status = item.newStatus;
+         return item
+         }).value();
+         let newBlips = _.chain(response).result('data.newBlips').value();
+         let allBlips = _.union(changedOldBlips, newBlips);*/
+        vm.itemsUpdated(items)
       });
   }
 
-  fetchItems($http, FirebaseUrl, $stateParams) {
-    return $http.get(`${FirebaseUrl}snapshots/${$stateParams.radarId}/${$stateParams.snapshotId}.json`)
+  fetchItems($http, FirebaseUrl, radarId, snapshotId) {
+    let defer = this.$q.defer(),
+      currentSnapshotId,
+      currentSnapshot,
+      prevSnapshot,
+      prevBlips,
+      currentBlips,
+      snapshotBlips;
+
+    // get index of current snapshot
+    currentSnapshotId = snapshotId;
+
+    // get previous snapshot
+    prevSnapshot = this.getPreviousSnapshot(snapshotId, this.snapshots);
+
+    // fetch items for current snapshot
+    currentSnapshot = _.find(this.snapshots, {id: currentSnapshotId});
+    currentBlips = this.getNewAndChangedBlips(currentSnapshot, true);
+
+    // fetch items for previous snapshot
+    // filter blips with newStatus set
+    prevBlips = this.getNewAndChangedBlips(prevSnapshot, false);
+
+    snapshotBlips = _.union(currentBlips, prevBlips);
+    // debugger
+    defer.resolve(snapshotBlips);
+
+    // return $http.get(`${FirebaseUrl}snapshots/${radarId}/${snapshotId}.json`)
+    return defer.promise;
   }
 
   itemsUpdated(newItems) {
@@ -89,4 +121,55 @@ export class RadarPageController {
 
     this.radarItems = filteredItems;
   }
+
+  /**
+   * Returns the previous snapshot
+   *
+   * @param snapshotId
+   * @param snapshots Spanshots sorted from newest first
+   * @returns {*}
+   */
+  getPreviousSnapshot(snapshotId, snapshots) {
+    let currentIdx,
+      prevIdx;
+
+    currentIdx = _.findIndex(snapshots, (snapshot)=> {
+      return snapshot.id === snapshotId;
+    })
+
+    prevIdx = currentIdx + 1;
+
+    return prevIdx < snapshots.length ? snapshots[prevIdx] : undefined;
+  }
+
+  getNewAndChangedBlips(snapshot, flagChanged) {
+    let newBlips,
+      changedBlips;
+
+    // flag as old for proper icon
+    if (flagChanged) {
+      newBlips = _.map(_.result(snapshot, 'newBlips'), (item)=> {
+        item.isNew = true;
+        return item;
+      });
+    } else {
+      newBlips = _.result(snapshot, 'newBlips')
+    }
+
+
+    changedBlips = _.filter(_.result(snapshot, 'blips'), (item) => !!item.newStatus)
+    changedBlips = _.map(changedBlips, function (item) {
+      // flag as old for proper icon
+      if (flagChanged) {
+        item.isChanged = true;
+      }
+
+      item.status = item.newStatus;
+      return item;
+    });
+
+    return _.union(changedBlips, newBlips);
+  }
+
+
 }
