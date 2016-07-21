@@ -258,6 +258,7 @@ $colorQ2: #8D2145;
     &--Platforms {
       top: 50%;
       left: 0;
+      max-height: 60%;
       .RadarLabels-label {
         color: $colorQ3;
       }
@@ -267,6 +268,7 @@ $colorQ2: #8D2145;
     &--Languages {
       top: 50%;
       right: 0;
+      max-height: 60%;
       text-align: right;
       .RadarLabels-label {
         color: $colorQ2;
