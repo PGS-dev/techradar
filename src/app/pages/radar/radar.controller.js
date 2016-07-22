@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export class RadarPageController {
-  constructor(FirebaseUrl, $state, $stateParams, moment, radarData, snapshots, $http, AuthService, $q) {
+  constructor($state, $stateParams, moment, radarData, snapshots, AuthService, $q) {
     'ngInject';
     let vm = this;
 
@@ -38,21 +38,20 @@ export class RadarPageController {
     }
 
     // Fetch radar items (blips) for specific snapshots
-    this.fetchItems($http, FirebaseUrl, $stateParams.radarId, $stateParams.snapshotId)
+    this.fetchItems(snapshots, $stateParams.snapshotId)
       .then((items) => {
-        // Showing chaged and new blips
-        /*        // TODO: Show also blips not changed, but added one snapshot ago
-         let changedOldBlips = _.chain(response).result('data.blips').filter('newStatus').map((item)=> {
-         item.status = item.newStatus;
-         return item
-         }).value();
-         let newBlips = _.chain(response).result('data.newBlips').value();
-         let allBlips = _.union(changedOldBlips, newBlips);*/
-        vm.itemsUpdated(items)
+        this.itemsUpdated(items)
       });
   }
 
-  fetchItems($http, FirebaseUrl, radarId, snapshotId) {
+  /**
+   * Get items from current and previous one snapshots
+   *
+   * @param snapshots
+   * @param snapshotId
+   * @returns {*}
+     */
+  fetchItems(snapshots, snapshotId) {
     let defer = this.$q.defer(),
       currentSnapshotId,
       currentSnapshot,
@@ -65,62 +64,31 @@ export class RadarPageController {
     currentSnapshotId = snapshotId;
 
     // get previous snapshot
-    prevSnapshot = this.getPreviousSnapshot(snapshotId, this.snapshots);
+    prevSnapshot = this.getPreviousSnapshot(snapshotId, snapshots);
 
     // fetch items for current snapshot
-    currentSnapshot = _.find(this.snapshots, {id: currentSnapshotId});
+    currentSnapshot = _.find(snapshots, {id: currentSnapshotId});
     currentBlips = this.getNewAndChangedBlips(currentSnapshot, true);
 
     // fetch items for previous snapshot
     // filter blips with newStatus set
     prevBlips = this.getNewAndChangedBlips(prevSnapshot, false);
 
-    snapshotBlips = _.union(currentBlips, prevBlips);
-    // debugger
+    snapshotBlips = _.unionBy(currentBlips, prevBlips, 'id');
     defer.resolve(snapshotBlips);
 
-    // return $http.get(`${FirebaseUrl}snapshots/${radarId}/${snapshotId}.json`)
     return defer.promise;
   }
 
+  /**
+   * Action on update items
+   *
+   * @param newItems
+     */
   itemsUpdated(newItems) {
-    this.items = newItems;
-    this.filterItems();
+    this.radarItems = newItems;
   }
 
-  filterItems() {
-    let vm = this,
-      items = _.clone(this.items),
-      filteredItems = [];
-
-    if (!vm.timeFilterModel.isActive) {
-      return this.radarItems = items;
-    }
-
-    _.forEach(items, function (item) {
-      let afterStart = false;
-      let beforeEnd = false;
-
-      let lastMatchedChange = _.chain(item)
-        .result('history')
-        .filter(function (change) {
-          afterStart = vm.timeFilterModel.start ? change.time >= moment(vm.timeFilterModel.start).valueOf() : true;
-          beforeEnd = vm.timeFilterModel.end ? change.time <= moment(vm.timeFilterModel.end).valueOf() : true;
-          return afterStart && beforeEnd;
-        })
-        .last()
-        .value();
-
-      if (!lastMatchedChange) return;
-
-      item.status = lastMatchedChange.status;
-      console.info(item.name, item.status, lastMatchedChange.timeString);
-
-      filteredItems.push(item);
-    })
-
-    this.radarItems = filteredItems;
-  }
 
   /**
    * Returns the previous snapshot
@@ -142,6 +110,12 @@ export class RadarPageController {
     return prevIdx < snapshots.length ? snapshots[prevIdx] : undefined;
   }
 
+  /**
+   * Filter blips added and changed
+   *
+   * @param snapshot
+   * @param flagChanged
+     */
   getNewAndChangedBlips(snapshot, flagChanged) {
     let newBlips,
       changedBlips;
@@ -156,7 +130,6 @@ export class RadarPageController {
       newBlips = _.result(snapshot, 'newBlips')
     }
 
-
     changedBlips = _.filter(_.result(snapshot, 'blips'), (item) => !!item.newStatus)
     changedBlips = _.map(changedBlips, function (item) {
       // flag as old for proper icon
@@ -170,6 +143,4 @@ export class RadarPageController {
 
     return _.union(changedBlips, newBlips);
   }
-
-
 }
