@@ -27,7 +27,12 @@ export function RadarDirective(_) {
 
       vm.loader = false;
       vm.viewItems = _.clone(newItems, true);
-      onItemsLoaded(vm.viewItems, scope);
+
+      // Small delay for animation
+      setTimeout(function(){
+        onItemsLoaded(vm.viewItems, scope);
+      }, 500)
+
     })
   }
 
@@ -89,5 +94,7 @@ export function RadarDirective(_) {
       item.position.x =  item.position.radius * Math.cos(Math.PI / 180 * item.position.angle);
       item.position.y = item.position.radius * Math.sin(Math.PI / 180 * item.position.angle);
     })
+
+    scope.$apply();
   }
 }
