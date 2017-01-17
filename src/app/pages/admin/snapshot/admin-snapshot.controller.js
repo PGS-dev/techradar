@@ -5,7 +5,7 @@ export class AdminSnapshotPageController {
     'ngInject';
 
     // Check permission to create radar
-    this.isAdmin = _.result(AuthService,'currentUser.uid') === radarData.author;
+    this.isAdmin = _.result(AuthService, 'currentUser.uid') === radarData.author || _.result(AuthService, 'currentUser.uid') === radarData.admin;
 
     if (!AuthService.isAuthenticated()) {
       $state.go('login');
