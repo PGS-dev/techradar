@@ -8,8 +8,8 @@
       ".read":  true,
 
       "$radar_id": {
-        // Write if user is authenticated and is also an author of current radar OR if creating new radar
-        ".write": "auth != null && (auth.uid == root.child('radars').child($radar_id).child('author').val()) || (!data.exists() && newData.exists())"
+        // Write if user is authenticated and is also an author or admin of current radar OR if creating new radar
+        ".write": "auth != null && (auth.uid == root.child('radars').child($radar_id).child('author').val() || auth.uid == root.child('radars').child($radar_id).child('admin').val()) || (!data.exists() && newData.exists())"
       }
     },
     "snapshots": {
@@ -17,8 +17,8 @@
       ".read":  true,
 
       "$radar_id": {
-        // Write if user is authenticated and is also an author of current radar OR if creating new radar
-        ".write": "auth != null && (auth.uid == root.child('radars').child($radar_id).child('author').val()) || (!data.exists() && newData.exists())"
+        // Write if user is authenticated and is also an author or admin of current radar OR if creating new radar
+        ".write": "auth != null && (auth.uid == root.child('radars').child($radar_id).child('author').val() || auth.uid == root.child('radars').child($radar_id).child('admin').val()) || (!data.exists() && newData.exists())"
       }
     },
     "technologies": {
@@ -26,8 +26,8 @@
       ".read":  true,
 
       "$radar_id": {
-        // Write if user is authenticated and is also an author of current radar OR if creating new radar
-        ".write": "auth != null && (auth.uid == root.child('radars').child($radar_id).child('author').val()) || (!data.exists() && newData.exists())"
+        // Write if user is authenticated and is also an author or admin of current radar OR if creating new radar
+        ".write": "auth != null && (auth.uid == root.child('radars').child($radar_id).child('author').val() || auth.uid == root.child('radars').child($radar_id).child('admin').val()) || (!data.exists() && newData.exists())"
       }
     },
     "users": {
